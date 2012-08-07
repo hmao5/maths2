@@ -2,5 +2,5 @@
 
 require:
     - play
-    - crud
-    - play -> coffee 1.0
+    - play -> coffee 0.9
+
