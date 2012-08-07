@@ -6,28 +6,27 @@
 #{set 'moreScripts'} #{script 'game.coffee' /} #{/set}
 
 <div class="container body-wrapper">
+  <h1 id="welcomeBanner"> Welcome to Maths 2 </h1>
   <div class="row">
-    <div class="span4 offset4">
-      <h1 id="welcomeBanner"> Welcome to Maths 2 </h1>
-     
+    <div id="playersBar" class="span2 offset"2>
+    </div>
 
-
+    <div id="mainArea"class="span6 offset4">
       <div id="status" class="well">
-      <h2> Game status </h2>
-        Waiting for others to connect.
+        <h2> Game status </h2>
+        <p>Waiting for others to connect.</p>
       </div>
 
       <div id="questions" class="well">
-      <h2> Current Question </h2>
+        <h2> Current Question </h2>
         <div class="question">
-          loading question
+          <p>loading question</<p>
         </div>
       </div>
+
       <form id="gameForm">
         <input id="playerAnswer" type="text"> </input>
       </form>
-
-
     </div>
-  </div>
-</div>
+  </div> <!-- END ROW -->
+</div> <!-- end container -->
