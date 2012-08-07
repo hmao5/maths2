@@ -17,8 +17,11 @@ connect = ->
   console.log gameSettings
 
 connectCB = (response, status, jqXHR) ->
-  console.log "connectCB data: #{data}"
+  console.log "connectCB data:"
+  console.log response
   gameSettings.player.id = response.id
+  $('#playerNameDisplay span').text(gameSettings.player.name)
+  $('#playerIDdisplay span').text(gameSettings.player.id)
 
 
 gameSettings = {}
