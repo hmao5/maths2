@@ -4,3 +4,4 @@ require:
     - play
     - crud
     - play -> coffee 1.0
+    - play -> sass 1.1

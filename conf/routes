@@ -5,7 +5,7 @@
 GET		/admin									module:crud
 
 # Home page
-GET     /                                       Application.index
+GET     /                                       Application.game
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
