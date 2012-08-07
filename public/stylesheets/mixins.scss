@@ -1,0 +1,7 @@
+@mixin border-radius($radius=3px) {
+  -webkit-border-radius: $radius $radius;
+  -moz-border-radius: $radius / $radius;
+  -khtml-border-radius: $radius / $radius;
+  border-radius: $radius / $radius; 
+}
+
