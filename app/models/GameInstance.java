@@ -45,25 +45,28 @@ public class GameInstance extends Model {
 	public void start() {
 		started = true;
 		newRound();
+		save();
 	}
 	public void newRound() {
 		inRound = false;
 		for(User u: players) {
 			u.score = 0;
 			u.ready = false;
+			u.save();
 		}
 		round++;
 		for(Problem p: problems) {
-			p.delete(); // TODO not sure if i can actually do this w/o concurrency issues
+			p.delete();
 		}
 		problems.clear();
-		save();
 		if(round>totalRounds) {
 			end();
 		}
+		save();
 	}
 	public void end() {
 		ended = true;
+		save();
 	}
 	public void startRound() {
 		inRound = true;
