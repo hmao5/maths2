@@ -1,4 +1,4 @@
-$derp: whitesmoke;
+@import "mixins";
 $darkBlue: rgba(0, 74, 128, 1);
 $darkGray: rgba(25, 25, 25, 1);
 
@@ -9,24 +9,27 @@ body {
 
 h1 {
   font-size: 4em;
-  padding: 0.8em;
+  padding: 0.8em 0em;
 }
 
 h2 {
   font-size: 3em;
-  padding: .6em;
+  padding: .6em 0em;
 }
 
 h3 {
   font-size: 2em;
-  padding: .4em;
+  padding: .4em 0em;
 }
 
-p {
+p, li {
   font-size: 1.6em;
 }
 
 #playersBar {
+  @include border-radius(5px);
+  background: whitesmoke;
+  padding: 2em;
 }
 #mainArea {
 }
@@ -34,6 +37,20 @@ p {
 #welcomeBanner {
   text-align: center;
   margin: 0 auto;
+}
+
+#inputPlayerName {
+  font-size: 2em;
+  height: 1.5em;
+  vertical-align: middle;
+  display: inline-block;
+  padding: auto;
+  margin: 0px;
+}
+
+#buttonConnect {
+  vertical-align: middle;
+  margin: 0px;
 }
 
 

@@ -8,23 +8,38 @@
 <div class="container body-wrapper">
   <h1 id="welcomeBanner"> Welcome to Maths 2 </h1>
   <div class="row">
-    <div id="playersBar" class="span2 offset"2>
+    <div id="playersBar" class="span2 offset2">
+      <h2> Players </h2>
+      <ul class>
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+      </ul>
     </div>
 
-    <div id="mainArea"class="span6 offset4">
-      <div id="status" class="well">
-        <h2> Game status </h2>
-        <p>Waiting for others to connect.</p>
-      </div>
-
-      <div id="questions" class="well">
-        <h2> Current Question </h2>
-        <div class="question">
-          <p>loading question</<p>
-        </div>
-      </div>
-
+    <div id="mainArea"class="span6">
       <form id="gameForm">
+        <div id="systemManagement" class="well">
+          <h2> Room 31,415 </h2>
+          <p>Waiting for others to connect.</p>
+
+          <div>
+            <input placeholder="Enter your username" type="text" id="inputPlayerName"> </input>
+            <a href="#" class="btn btn-large btn-primary" id="buttonConnect"> Connect </a>
+            hello
+          </div>
+
+          <div id="notifications"> </div>
+        </div>
+
+        <div id="questions" class="well">
+          <h2> Current Question </h2>
+          <div class="question">
+            <p>loading question</<p>
+          </div>
+        </div>
+
         <input id="playerAnswer" type="text"> </input>
       </form>
     </div>
