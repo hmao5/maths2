@@ -14,7 +14,8 @@ public class Application extends Controller {
     }
     
     public static void game() {
-        render();
+    	String str = "sherwin";
+        render(str);
     }
 
 }
