@@ -1,18 +1,33 @@
 #{extends 'main.html' /}
 #{set title: 'Maths' /}
 #{set 'moreStyles'}
-	#{stylesheet 'game.css' /}
+#{stylesheet 'game.scss' /} 
 #{/set}
-#{set 'moreScripts'}
-	#{script 'game.coffee' /}
-#{/set}
+#{set 'moreScripts'} #{script 'game.coffee' /} #{/set}
 
 <div class="container body-wrapper">
-<div class="row">
-<div class="span4 offset4">
+  <div class="row">
+    <div class="span4 offset4">
+      <h1 id="welcomeBanner"> Welcome to Maths 2 </h1>
+     
 
-heard ur gay
 
-</div>
-</div>
+      <div id="status" class="well">
+      <h2> Game status </h2>
+        Waiting for others to connect.
+      </div>
+
+      <div id="questions" class="well">
+      <h2> Current Question </h2>
+        <div class="question">
+          loading question
+        </div>
+      </div>
+      <form id="gameForm">
+        <input id="playerAnswer" type="text"> </input>
+      </form>
+
+
+    </div>
+  </div>
 </div>
