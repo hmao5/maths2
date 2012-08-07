@@ -11,7 +11,10 @@ public class Update {
 	public Map<String, ProblemI> allProblems;
 	public ProblemI[] activeProblems;
 	public PlayerI[] players;
-	
+	public int roundNum;
+	public boolean roundStarted;
+	public boolean gameStarted;
+	public boolean gameEnded;
 	
 	public Update(GameInstance game) {
 		allProblems = new HashMap<String, ProblemI>();
@@ -19,7 +22,7 @@ public class Update {
 		for(Problem pr: game.problems) {
 			ProblemI t = new ProblemI(pr);
 			allProblems.put(t.id+"", t);
-			if(pr.answeredBy!=null) {
+			if(pr.answeredBy==null) {
 				activeProblems[pr.position] = t;
 			}
 		}
@@ -27,6 +30,10 @@ public class Update {
 		for(User pl: game.players) {
 			players[pl.position] = new PlayerI(pl);
 		}
+		roundNum = game.round;
+		roundStarted = game.inRound;
+		gameStarted = game.started;
+		gameEnded = game.ended;
 	}
 	
 }

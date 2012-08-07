@@ -23,6 +23,8 @@ public class User extends Model {
 	
 	public int position;
 	
+	public long lastHeartbeat;
+	
 	public User(String name, GameInstance game, int position) {
 		this.name = name;
 		this.game = game;
@@ -30,6 +32,7 @@ public class User extends Model {
 		this.ready = false;
 		this.alive = true;
 		this.position = position;
+		this.lastHeartbeat = System.currentTimeMillis();
 	}
 	@Override
 	public String toString() {

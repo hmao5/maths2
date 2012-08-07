@@ -20,10 +20,11 @@ public class Ajax extends Controller {
 	}
 	static User getMyUser() {
 		String str = session.get("id");
-		if(str==null) error("not connected");
+		if(str==null) error("not connected - try refreshing page");
 		Long l = Long.parseLong(str);
 		User u = User.findById(l);
-		if(u==null) error("invalid session id");
+		if(u==null) error("invalid session id - try refreshing page");
+		if(!u.alive) error("session timed out - you haven't polled for updates for a few seconds");
 		return u;
 	}
 	
@@ -54,7 +55,7 @@ public class Ajax extends Controller {
 	public static void ready(int level) {
 		User user = getMyUser();
 		GameInstance game = user.game;
-		if(game.level!=level) error("out of sync - game not on level "+level);
+		if(game.round!=level) error("out of sync - game not on level "+level);
 		if(game.inRound) error("round already started");
 		user.ready = true;
 		user.save();
@@ -69,7 +70,7 @@ public class Ajax extends Controller {
 	public static void unready(int level) {
 		User user = getMyUser();
 		GameInstance game = user.game;
-		if(game.level!=level) error("out of sync - game not on level "+level);
+		if(game.round!=level) error("out of sync - game not on level "+level);
 		if(game.inRound) error("round already started");
 		user.ready = false;
 		user.save();
@@ -94,15 +95,28 @@ public class Ajax extends Controller {
 				right = true;
 			}
 		}
+		if(user.score>=game.pointsToWin) {
+			game.newRound();
+		}
 		Map map = new HashMap();
 		map.put("answerStatus", (right?"CORRECT_AND_FIRST":"NOT_CORRECT_AND_FIRST"));
 		renderJSON(map);
 	}
 	
 	public static void getUpdate() {
+		long time = System.currentTimeMillis();
 		User user = getMyUser();
 		GameInstance game = user.game;
-		
+		for(User pl: game.players) {
+			if(pl.lastHeartbeat < time - 60000) {
+				pl.alive = false;
+				pl.save();
+			}
+		}
+		if(user.alive) {
+			user.lastHeartbeat = time;
+			user.save();
+		}
 		renderJSON(new Update(game));
 	}
 }
