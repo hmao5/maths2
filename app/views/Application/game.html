@@ -44,10 +44,12 @@
 
         <div id="questions" class="well">
           <h2> Questions </h2>
-          <div class="questionsWrapper">
-            <div class="question" id="questionTemplate">
+          <div id="questionsWrapper">
+          %{for(int i=0; i<5; i++) {}%
+            <div class="question" id="question${i}">
               <h3> 5+5=? </h3>
             </div>
+          %{}}%
           </div>
         </div>
 

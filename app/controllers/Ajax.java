@@ -113,7 +113,7 @@ public class Ajax extends Controller {
 		User user = getMyUser();
 		GameInstance game = user.game;
 		for(User pl: game.players) {
-			if(pl.lastHeartbeat < time - 60000) {
+			if(pl.alive && pl.lastHeartbeat < time - 60000) {
 				pl.alive = false;
 				pl.save();
 				Logger.info(pl.name + " disconnected");
