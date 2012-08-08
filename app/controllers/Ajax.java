@@ -8,6 +8,7 @@ import java.util.Map;
 import models.GameInstance;
 import models.Problem;
 import models.User;
+import play.Logger;
 import play.mvc.Controller;
 import responses.PlayerI;
 import responses.ProblemI;
@@ -47,18 +48,20 @@ public class Ajax extends Controller {
 			game.start();
 		}
 		session.put("id", u.id);
+		Logger.info(playerName+" connected as player "+u.id);
 		Map map = new HashMap();
 		map.put("id", u.id);
 		renderJSON(map);
 	}
 	
-	public static void ready(int level) {
+	public static void ready(int round) {
 		User user = getMyUser();
 		GameInstance game = user.game;
-		if(game.round!=level) error("out of sync - game not on level "+level);
+		if(game.round!=round) error("out of sync - game not on round "+round);
 		if(game.inRound) error("round already started");
 		user.ready = true;
 		user.save();
+		Logger.info(user.name + " ready for round "+round);
 		boolean flag = true;
 		for(User p: game.players) 
 			if(!p.ready || !p.alive)
@@ -67,13 +70,14 @@ public class Ajax extends Controller {
 			game.startRound();
 		renderSuccess();
 	}
-	public static void unready(int level) {
+	public static void unready(int round) {
 		User user = getMyUser();
 		GameInstance game = user.game;
-		if(game.round!=level) error("out of sync - game not on level "+level);
+		if(game.round!=round) error("out of sync - game not on round "+round);
 		if(game.inRound) error("round already started");
 		user.ready = false;
 		user.save();
+		Logger.info(user.name + " no longer ready for round "+round);
 		renderSuccess();
 	}
 	
@@ -83,6 +87,7 @@ public class Ajax extends Controller {
 		GameInstance game = user.game;
 		Double d = Double.parseDouble(ans.trim());
 		boolean right = false;
+		Logger.info(user.name + " answered "+ans+(right?" and got points":""));
 		for(Problem pr: game.problems) {
 			if(pr.answeredBy!=null) 
 				continue;
@@ -99,7 +104,7 @@ public class Ajax extends Controller {
 			game.newRound();
 		}
 		Map map = new HashMap();
-		map.put("answerStatus", (right?"CORRECT_AND_FIRST":"NOT_CORRECT_AND_FIRST"));
+		map.put("result", (right?"RIGHT":"WRONG OR TOO SLOW"));
 		renderJSON(map);
 	}
 	
@@ -111,6 +116,7 @@ public class Ajax extends Controller {
 			if(pl.lastHeartbeat < time - 60000) {
 				pl.alive = false;
 				pl.save();
+				Logger.info(pl.name + " disconnected");
 			}
 		}
 		if(user.alive) {
