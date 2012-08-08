@@ -1,7 +1,5 @@
-bindings = ->
-  console.log 'bindings'
-  $('#buttonConnect').click -> do connect
-  
+### COMMUNICATIONS ###
+
 connect = ->
   console.log 'connect'
   gameSettings.setPlayerName $('#inputPlayerName').val()
@@ -23,8 +21,6 @@ connectCB = (response, status, jqXHR) ->
   gameSettings.setPlayerStatus(playerStatuses.CONNECTED)
   updates.begin()
   
-gameSettings =  {}
-updates = {}
   
 playerStatuses = 
   UNCONNECTED: 'UNCONNECTED'
@@ -35,7 +31,7 @@ playerStatuses =
 
 $ -> 
   do bindings
-  gameSettings = 
+  window.gameSettings = 
     player: {}
     setPlayerName: (name) ->
       this.player.name = name
@@ -47,7 +43,11 @@ $ ->
       this.status = status
       $('#gameStatus span').text(gameSettings.status)
 
-  updates = 
+  window.comm =
+    connect: connect
+    connectCB: connectCB
+
+  window.updates = 
     timer: {}
     getUpdate: ->
       ajaxSettings =
