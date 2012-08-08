@@ -13,15 +13,58 @@ connect = ->
     success: connectCB
     data: data
   $.ajax ajaxSettings
-  console.log ajaxSettings
-  console.log gameSettings
 
 connectCB = (response, status, jqXHR) ->
   console.log "connectCB data:"
-  console.log response
+  console.log JSON.stringify(response)
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(playerStatuses.CONNECTED)
   updates.begin()
+  
+ready = ->
+  console.log 'ready'
+  data = 
+    round: 1
+  ajaxSettings = 
+    url: '/Ajax/ready'
+    type: 'POST'
+    success: readyCB
+    data: data
+  $.ajax ajaxSettings
+  
+readyCB = (response, status, jqXHR) ->
+  console.log "readyCB called"
+  
+unready = ->
+  console.log 'unready'
+  data = 
+    round: 1
+  ajaxSettings = 
+    url: '/Ajax/unready'
+    type: 'POST'
+    success: unreadyCB
+    data: data
+  $.ajax ajaxSettings
+  
+unreadyCB = (response, status, jqXHR) ->
+  console.log "unreadyCB called"
+  
+answer = ->
+  console.log 'answer'
+  data = 
+    ans: $('#playerAnswer').val()
+  ajaxSettings = 
+    url: '/Ajax/answer'
+    type: 'POST'
+    success: answerCB
+    data: data
+  $.ajax ajaxSettings
+  
+answerCB = (response, status, jqXHR) ->
+  console.log "answerCB data:"
+  console.log JSON.stringify(response)
+  right = response.result=='RIGHT'
+  console.log 'right: '+right
   
 gameSettings =  {}
 updates = {}
@@ -56,7 +99,7 @@ $ ->
         success: @getUpdateCB
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
-      console.log 'getupdate response', status, response
+      console.log 'getupdate response', status, JSON.stringify(response)
     begin: ->
       console.log "polling for updates"
       @timer = setInterval (=> do @getUpdate ), 1000

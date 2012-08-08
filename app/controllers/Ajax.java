@@ -104,7 +104,7 @@ public class Ajax extends Controller {
 			game.newRound();
 		}
 		Map map = new HashMap();
-		map.put("answerStatus", (right?"CORRECT_AND_FIRST":"NOT_CORRECT_AND_FIRST"));
+		map.put("result", (right?"RIGHT":"WRONG OR TOO SLOW"));
 		renderJSON(map);
 	}
 	
