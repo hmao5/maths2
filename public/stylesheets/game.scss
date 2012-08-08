@@ -45,6 +45,10 @@ p, li {
   background: whitesmoke;
   padding: 2em;
 }
+
+#playersList {
+  list-style: none;
+}
 #mainArea {
 }
 
@@ -108,6 +112,12 @@ p, li {
 
 .question {
 }
+
+#questionTemplate {
+  display: none;
+}
+
+
 
 #playerAnswer {
   margin-left: auto;

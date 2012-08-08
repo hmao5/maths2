@@ -14,7 +14,7 @@ connectCB = (response, status, jqXHR) ->
   console.log "connectCB data:"
   console.log JSON.stringify(response)
   gameSettings.setPlayerID(response.id)
-  gameSettings.setPlayerStatus(playerStatuses.CONNECTED)
+  gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
   updates.begin()
   
 ready = ->
@@ -62,12 +62,16 @@ answerCB = (response, status, jqXHR) ->
   right = response.result=='RIGHT'
   console.log 'right: '+right
   
-playerStatuses = 
+PLAYER_STATUS = 
   UNCONNECTED: 'UNCONNECTED'
   CONNECTED: 'CONNECTED'
-  CONNECTED_AND_READY: 'CONNECTED_AND_READY'
-  IN_GAME: 'IN_GAME'
+  READY: 'READY'
   DISCONNECTED: 'DISCONNECTED'
+GAME_STATUS = 
+  WAITING: 'WAITING'
+  LOBBY: 'LOBBY'
+  IN_GAME: 'IN_GAME'
+  GAME_END: 'GAME_END'
 
 $ -> 
   do uiInit
@@ -104,8 +108,29 @@ $ ->
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
       console.log 'getupdate response', status, response
+      true
+      ###
+      # status = gameStatus response 
+      # if status == waiting
+          update player list
+      # if status == lobby
+          update player statuses
+      # if status == in game
+        display active problems
+        dispaly the score
+        .. sync timer?
+      ###
     begin: ->
       console.log "polling for updates"
       @timer = setInterval (=> do @getUpdate ), 1000
     clear: ->
       clear @timer
+    gameStatus: (r) ->
+      if !r.roundStarted and !r.gameStarted
+        return GAME_STATUS.WAITING
+      else if !r.roundStarted and r.gameStarted
+        return GAME_STATUS.LOBBY
+      else if r.roundStarted and r.gameStarted
+        return GAME_STATUS.IN_GAME
+      else if r.gameEnd
+        return GAME_STATUS.GAME_END

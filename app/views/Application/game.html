@@ -12,8 +12,8 @@
   <h1 id="welcomeBanner"> Welcome to Maths 2 </h1>
   <div class="row">
     <div id="playersBar" class="span2 offset2">
-      <h2> Players </h2>
-      <ul class>
+      <h2> Current Players </h2>
+      <ul id="playersList">
         <li> Haitao 5 </li>
         <li> Haitao 5 </li>
         <li> Haitao 5 </li>
@@ -43,9 +43,11 @@
         </div>
 
         <div id="questions" class="well">
-          <h2> Current Question </h2>
-          <div class="question">
-            <p>loading question</<p>
+          <h2> Questions </h2>
+          <div class="questionsWrapper">
+            <div class="question" id="questionTemplate">
+              <h3> 5+5=? </h3>
+            </div>
           </div>
         </div>
 
