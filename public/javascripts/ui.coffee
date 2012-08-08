@@ -15,6 +15,7 @@ window.bindings = ->
     if(event.which==13)
       do event.preventDefault
       do comm.answer
+      $('#playerAnswer').val('')
 
 window.uiInit = ->
   $('#inputReady').attr("disabled", true)

@@ -46,9 +46,15 @@ unreadyCB = (response, status, jqXHR) ->
   console.log "unreadyCB called"
   
 answer = ->
-  console.log 'answer'
+  ans = $('#playerAnswer').val()
+  console.log 'answer', ans
+  flag = false
+  (flag = true) for pr in window.lastUpdate.activeProblems when (pr? and Number(ans)==pr.answer)  
+  if not flag
+  	return
+  console.log 'sending answer to server', ans
   data = 
-    ans: $('#playerAnswer').val()
+    ans: ans
   ajaxSettings = 
     url: '/Ajax/answer'
     type: 'POST'
@@ -110,7 +116,8 @@ $ ->
         success: @getUpdateCB
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
-      console.log 'getupdate response', status, response
+      #console.log 'getupdate response', status, response
+      window.lastUpdate = response
       status = updates.gameStatus response 
       gameSettings.setGameStatus status
       
@@ -119,13 +126,13 @@ $ ->
         true
       $("#playersList").html('')
       for player in response.players when player?
-        $("#playersList").append("<li id='player#{player.id}'> #{player.name} </li>")
+        $("#playersList").append("<li id='player#{player.id}'> </li>")
+        $("#player#{player.id}").text("#{player.name}   #{player.score}")
         $("#player#{player.id}").addClass("ready") if player.ready
         $("#player#{player.id}").removeClass("ready") unless player.ready
       if status == GAME_STATUS.LOBBY
         $('#inputReady').removeAttr('disabled')
       if status == GAME_STATUS.IN_GAME
-        console.log response.activeProblems
         $("#questionsWrapper").html('')
         for problem in response.activeProblems when problem?
           #$("#questionsWrapper").append("<li id='player#{player.id}'> #{player.name} </li>")
