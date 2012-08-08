@@ -84,9 +84,12 @@ $ ->
     setPlayerID: (id) ->
       this.player.id = id
       $('#playerIDdisplay span').text(gameSettings.player.id)
-    setPlayerStatus: (status) ->
-      this.status = status
-      $('#gameStatus span').text(gameSettings.status)
+    setGameStatus: (gameStatus) ->
+      this.gameStatus = gameStatus
+      $('#gameStatus span').text(gameSettings.gameStatus)
+    setPlayerStatus: (playerStatus) ->
+      this.playerStatus = playerStatus
+      $('#playerStatus span').text(gameSettings.playerStatus)
 
   window.comm =
     connect: connect
@@ -108,18 +111,43 @@ $ ->
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
       console.log 'getupdate response', status, response
-      true
-      ###
-      # status = gameStatus response 
+      status = updates.gameStatus response 
+      gameSettings.setGameStatus status
+      
+    
+      if status == GAME_STATUS.WAITING
+        true
+      $("#playersList").html('')
+      for player in response.players when player?
+        $("#playersList").append("<li id='player#{player.id}'> #{player.name} </li>")
+        $("#player#{player.id}").addClass("ready") if player.ready
+        $("#player#{player.id}").removeClass("ready") unless player.ready
+      if status == GAME_STATUS.LOBBY
+        $('#inputReady').removeAttr('disabled')
+      if status == GAME_STATUS.IN_GAME
+        console.log response.activeProblems
+        $("#questionsWrapper").html('')
+        for problem in response.activeProblems when problem?
+          #$("#questionsWrapper").append("<li id='player#{player.id}'> #{player.name} </li>")
+          questiondiv = $('#questionTemplate').clone()
+          questiondiv.toggle()
+          questiondiv.attr("id", "question#{problem.id}")
+          questiondiv.appendTo("#questionsWrapper")
+          $("h3", questiondiv).text("#{problem.question}")
+          
+
+        $('#inputReady').attr("disabled", true)
+
+        
       # if status == waiting
-          update player list
+      #    update player list
       # if status == lobby
-          update player statuses
+      #    update player statuses
       # if status == in game
-        display active problems
-        dispaly the score
-        .. sync timer?
-      ###
+      # display active problems
+      #  dispaly the score
+      #  .. sync timer?
+      
     begin: ->
       console.log "polling for updates"
       @timer = setInterval (=> do @getUpdate ), 1000

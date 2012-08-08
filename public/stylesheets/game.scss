@@ -49,6 +49,11 @@ p, li {
 #playersList {
   list-style: none;
 }
+
+#playersList li.ready {
+  color: green;
+}
+
 #mainArea {
 }
 

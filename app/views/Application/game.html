@@ -27,6 +27,7 @@
           <h2> Room 31,415 </h2>
           <h3 id="gameStatus"> Status: <span> </span> </h3>
           <h2> You </h2>
+          <h3 id="playerStatus"> Status: <span> </span> </h3>
           <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
           <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
           <h3 id="readyDisplay"> Ready? </h3>  <input id="inputReady" type="checkbox" class="unready" /> 
@@ -44,12 +45,17 @@
 
         <div id="questions" class="well">
           <h2> Questions </h2>
+          <div class="question" id="questionTemplate">
+            <h3> question </h3>
+          </div>
           <div id="questionsWrapper">
-          %{for(int i=0; i<5; i++) {}%
+            <!--
+            %{for(int i=0; i<5; i++) {}%
             <div class="question" id="question${i}">
               <h3> 5+5=? </h3>
             </div>
-          %{}}%
+            %{}}%
+            -->
           </div>
         </div>
 
