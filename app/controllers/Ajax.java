@@ -57,6 +57,7 @@ public class Ajax extends Controller {
 	public static void ready(int round) {
 		User user = getMyUser();
 		GameInstance game = user.game;
+		if(game.ended) error("game is already over");
 		if(game.round!=round) error("out of sync - game not on round "+round);
 		if(game.inRound) error("round already started");
 		user.ready = true;
@@ -75,6 +76,7 @@ public class Ajax extends Controller {
 	public static void unready(int round) {
 		User user = getMyUser();
 		GameInstance game = user.game;
+		if(game.ended) error("game is already over");
 		if(game.round!=round) error("out of sync - game not on round "+round);
 		if(game.inRound) error("round already started");
 		user.ready = false;

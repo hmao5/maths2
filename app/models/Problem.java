@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 import play.db.jpa.Model;
+import problems.ProblemGenerator;
+import problems.QuestionAnswerPair;
 
 @Entity
 public class Problem extends Model {
@@ -16,12 +18,11 @@ public class Problem extends Model {
 	public User answeredBy;
 	public int position;
 	
-	public Problem(GameInstance game, int position) {
+	public Problem(GameInstance game, int position, int round) {
 		this.game = game;
-		int a = (int)(1+Math.random()*9);
-		int b = (int)(1+Math.random()*9);
-		this.question = a+"+"+b;
-		this.answer = a+b;
+		QuestionAnswerPair pair = ProblemGenerator.generate(round);
+		this.question = pair.question;
+		this.answer = pair.answer;
 		this.answeredBy = null;
 		this.position = position;
 	}

@@ -34,10 +34,10 @@ public class GameInstance extends Model {
 		this.started = false;
 		this.ended = false;
 		this.inRound = false;
-		this.problemsAtOnce = 1;
+		this.problemsAtOnce = 3;
 		this.maxPlayers = 2;
-		this.pointsToWin = 5;
-		this.totalRounds = 1;
+		this.pointsToWin = 10;
+		this.totalRounds = 3;
 		this.players = new ArrayList<User>();
 		this.problems = new ArrayList<Problem>();
 	}
@@ -75,7 +75,7 @@ public class GameInstance extends Model {
 		save();
 	}
 	public Problem newProblem(int position) {
-		Problem pr = new Problem(this, position).save();
+		Problem pr = new Problem(this, position, round).save();
 		return pr;
 	}
 }

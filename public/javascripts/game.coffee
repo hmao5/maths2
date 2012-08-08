@@ -20,7 +20,7 @@ connectCB = (response, status, jqXHR) ->
 ready = ->
   console.log 'ready'
   data = 
-    round: 1
+    round: window.lastUpdate.roundNum
   ajaxSettings = 
     url: '/Ajax/ready'
     type: 'POST'
@@ -34,7 +34,7 @@ readyCB = (response, status, jqXHR) ->
 unready = ->
   console.log 'unready'
   data = 
-    round: 1
+    round: window.lastUpdate.roundNum
   ajaxSettings = 
     url: '/Ajax/unready'
     type: 'POST'
