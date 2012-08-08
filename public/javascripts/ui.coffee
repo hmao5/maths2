@@ -11,6 +11,10 @@ window.bindings = ->
       input.addClass('unready')
       input.removeClass('ready')
       do comm.unready
+  $('#playerAnswer').keydown (event) ->
+    if(event.which==13)
+      do event.preventDefault
+      do comm.answer
 
 window.uiInit = ->
   $('#inputReady').attr("disabled", true)
