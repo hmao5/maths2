@@ -70,6 +70,7 @@ playerStatuses =
   DISCONNECTED: 'DISCONNECTED'
 
 $ -> 
+  do uiInit
   do bindings
   window.gameSettings = 
     player: {}
@@ -88,9 +89,10 @@ $ ->
     connectCB: connectCB
     ready: ready
     readyCB: readyCB
+    unready: unready
+    unreadyCB: unreadyCB
     answer: answer
     answerCB: answerCB
-
 
   window.updates = 
     timer: {}
@@ -101,7 +103,7 @@ $ ->
         success: @getUpdateCB
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
-      console.log 'getupdate response', status, JSON.stringify(response)
+      console.log 'getupdate response', status, response
     begin: ->
       console.log "polling for updates"
       @timer = setInterval (=> do @getUpdate ), 1000

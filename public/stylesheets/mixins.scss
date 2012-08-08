@@ -5,3 +5,15 @@
   border-radius: $radius / $radius; 
 }
 
+.label {
+  font-size: 10.998px;
+  font-weight: bold;
+  line-height: 14px;
+  color: white;
+  # vertical-align: baseline;
+  white-space: nowrap;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #999;
+  @include border-radius
+}
+
