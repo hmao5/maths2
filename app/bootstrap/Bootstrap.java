@@ -9,7 +9,5 @@ import play.test.Fixtures;
 public class Bootstrap extends Job {
 	public void doJob() {
 		Fixtures.deleteDatabase();
-		
-		new User("gaylord", null, 0).save();
 	}
 }
