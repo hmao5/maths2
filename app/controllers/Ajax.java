@@ -66,8 +66,10 @@ public class Ajax extends Controller {
 		for(User p: game.players) 
 			if(!p.ready || !p.alive)
 				flag = false;
-		if(flag)
+		if(flag) {
+			Logger.info("all players ready, starting round "+round);
 			game.startRound();
+		}
 		renderSuccess();
 	}
 	public static void unready(int round) {
@@ -87,7 +89,6 @@ public class Ajax extends Controller {
 		GameInstance game = user.game;
 		Double d = Double.parseDouble(ans.trim());
 		boolean right = false;
-		Logger.info(user.name + " answered "+ans+(right?" and got points":""));
 		for(Problem pr: game.problems) {
 			if(pr.answeredBy!=null) 
 				continue;
@@ -100,7 +101,9 @@ public class Ajax extends Controller {
 				right = true;
 			}
 		}
+		Logger.info(user.name + " answered "+ans+(right?" and got points":""));
 		if(user.score>=game.pointsToWin) {
+			Logger.info("round "+game.round+" ended");
 			game.newRound();
 		}
 		Map map = new HashMap();
