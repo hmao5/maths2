@@ -33,6 +33,7 @@ h4 {
 
 p, li {
   font-size: 1.6em;
+  line-height: normal;
 }
 
 #welcomeBanner {
@@ -42,6 +43,10 @@ p, li {
 
 #intro {
 
+}
+
+#intro #instructions {
+  font-size: 2em;
 }
 
 #getStarted {

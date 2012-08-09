@@ -1,17 +1,15 @@
 window.ui =
   initBindings: ->
     console.log 'bindings'
+
     $('#buttonConnect').click ->
-      # console.log (.val())
       name = $.trim($('#inputPlayerName').val())
-      # console.log name
       if name == ""
         $('#inputPlayerName').val("Your name can't be blank!")
       else
-        comm.connect $.trim name
+        comm.connect name
         do $('#getStarted').slideUp
         do $('#currentRoom').slideDown
-
     $('#inputReady').click ->
       input = $('#inputReady')
       console.log input.attr('data-status')
@@ -29,8 +27,14 @@ window.ui =
         do comm.answer
         $('#playerAnswer').val('')
 
-
-
+  updateProblems: (problems) ->
+    for problem, i in problems  when problem?
+      console.log i
+      console.log problem
+      questiondiv = $("#question#{i}")
+      $("h3", questiondiv).text("#{problem.question}")
+      questiondiv.show()
+      console.log questiondiv
 
   initQuestions: ->
     $("#questionsWrapper").html('')

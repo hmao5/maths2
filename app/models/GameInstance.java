@@ -44,7 +44,7 @@ public class GameInstance extends Model {
 		
 		// TODO factor these out of this constructor
 		this.problemsAtOnce = 3;
-		this.maxPlayers = 2;
+		this.maxPlayers = 1;
 		this.pointsToWin = 5;
 		this.roundTimeLimit = 30;
 		this.totalRounds = 3;

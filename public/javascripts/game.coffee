@@ -91,8 +91,7 @@ GAME_STATUS =
   onLobby: ->
     $('#inputReady').toggle();
   onInGame: ->
-    $('#inputReady').attr("disabled", true)
-    $('#gameArea').toggle();
+    $('#gameArea').slideDown();
   onGameEnd: ->
     do updates.clear
 
@@ -150,27 +149,10 @@ window.updates =
         $("#player#{player.id}").addClass("ready") if player.ready
         $("#player#{player.id}").removeClass("ready") unless player.ready
       if status == GAME_STATUS.LOBBY
-        $('#inputReady').removeAttr('disabled')
+        true
       if status == GAME_STATUS.IN_GAME
-        for problem, i in update.activeProblems when problem?
-          console.log i
-          console.log problem
-          questiondiv = $("#question#{i}")
-          $("h3", questiondiv).text("#{problem.question}")
-          questiondiv.show()
-          console.log questiondiv
+        ui.updateProblems update.activeProblems
 
-
-          ###
-        $("#questionsWrapper").html('')
-        for problem in update.activeProblems when problem?
-          #$("#questionsWrapper").append("<li id='player#{player.id}'> #{player.name} </li>")
-          questiondiv = $('#questionTemplate').clone()
-          questiondiv.toggle()
-          questiondiv.attr("id", "question#{problem.id}")
-          questiondiv.appendTo("#questionsWrapper")
-          $("h3", questiondiv).text("#{problem.question}")
-          ###
       window.lastUpdate = update
     @gameStatusCallbacks = (newStatus) ->
       oldStatus = gameSettings.gameStatus
