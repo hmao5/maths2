@@ -1,7 +1,17 @@
 window.ui =
   initBindings: ->
     console.log 'bindings'
-    $('#buttonConnect').click -> do comm.connect
+    $('#buttonConnect').click ->
+      # console.log (.val())
+      name = $.trim($('#inputPlayerName').val())
+      # console.log name
+      if name == ""
+        $('#inputPlayerName').val("Your name can't be blank!")
+      else
+        comm.connect $.trim name
+        do $('#getStarted').slideUp
+        do $('#currentRoom').slideDown
+
     $('#inputReady').click ->
       input = $('#inputReady')
       console.log input.attr('data-status')

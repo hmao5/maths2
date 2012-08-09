@@ -1,8 +1,8 @@
-connect = ->
-  console.log 'connect'
-  gameSettings.setPlayerName $('#inputPlayerName').val()
+connect = (name) ->
+  gameSettings.setPlayerName name
   data =
     playerName: gameSettings.player.name
+  console.log 'connect', data
   ajaxSettings =
     url: '/Ajax/connect'
     type: 'POST'

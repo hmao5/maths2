@@ -6,9 +6,10 @@
 #{set 'moreScripts'}
 #{script 'game.coffee' /} 
 #{script 'ui.coffee' /} 
+#{script 'jquery.validate.min.js' /} 
 #{/set}
 
-  <div class="span6 offset3">
+<div class="span6 offset3">
 
 
   <h1 id="welcomeBanner"> Maths II: Mathdool </h1>
@@ -21,8 +22,8 @@
   </div>
 
   <div id="getStarted">
-      <input placeholder="Enter your username" type="text" id="inputPlayerName"> </input>
-      <a href="#" class="btn btn-large btn-primary" id="buttonConnect"> Connect </a>
+    <input placeholder="Enter your username" type="text" id="inputPlayerName"> </input>
+    <a href="#" class="btn btn-large btn-primary" id="buttonConnect"> Connect </a>
   </div>
 
   <div id="gameArea">
@@ -35,75 +36,32 @@
       </div>
     </div>
     <input id="playerAnswer" type="text"> </input>
+  <div id="roundTimer"></div>
   </div>
 
 
 
 
-    <div id="currentRoom">
-      <h2> Room: Walloping Winnifreds </h2>
-      <h3 id="gameStatus"> Status: <span> </span> </h3>
-      <h2> You </h2>
-      <h3 id="playerStatus"> Status: <span> </span> </h3>
-      <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
-      <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
-      <h3 id="readyDisplay"> </h3>  <a href="#" class="btn" id="inputReady" data-status="unready"> </a> <!-- input id="inputReady" type="checkbox" class="unready" /> <label id="labelReady"></label-->
+  <div id="currentRoom">
+    <h2> Room: Walloping Winnifreds </h2>
+    <h3 id="gameStatus"> Status: <span> </span> </h3>
+    <h2> You </h2>
+    <h3 id="playerStatus"> Status: <span> </span> </h3>
+    <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
+    <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
+    <h3 id="readyDisplay"> </h3>  <a href="#" class="btn" id="inputReady" data-status="unready"> </a> <!-- input id="inputReady" type="checkbox" class="unready" /> <label id="labelReady"></label-->
 
-        <div id="notifications"> </div>
-        <h2> Current Players </h2>
-        <ul id="playersList">
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-        </ul>
-      </div> <!-- end current room -->
-    </div> <!-- end span6 -->
+      <div id="notifications"> </div>
+      <h2> Current Players </h2>
+      <ul id="playersList">
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+        <li> Haitao 5 </li>
+      </ul>
+    </div> <!-- end current room -->
+  </div> <!-- end span6 -->
 
-    <div id="roundTimer"></div>
 
-    <!--
-    <div class="row">
-      <div id="currentRoom" class="span3 offset2">
-        <h2> Room: Walloping Winnifreds </h2>
-        <h3 id="gameStatus"> Status: <span> </span> </h3>
-        <h2> You </h2>
-        <h3 id="playerStatus"> Status: <span> </span> </h3>
-        <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
-        <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
-        <h3 id="readyDisplay"> Ready? </h3>  <input id="inputReady" type="checkbox" class="unready" /> 
-
-        <p>Waiting for others to connect.</p>
-
-        <div>
-          <input placeholder="Enter your username" type="text" id="inputPlayerName"> </input>
-          <a href="#" class="btn btn-large btn-primary" id="buttonConnect"> Connect </a>
-          hello
-        </div>
-
-        <div id="notifications"> </div>
-        <h2> Current Players </h2>
-        <ul id="playersList">
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-          <li> Haitao 5 </li>
-        </ul>
-      </div>
-
-      <div id="mainArea"class="span5">
-
-        <div id="questions" class="well">
-          <h2> Questions </h2>
-          <div class="question" id="questionTemplate">
-            <h3> question </h3>
-          </div>
-          <div id="questionsWrapper">
-          </div>
-        </div>
-
-        <input id="playerAnswer" type="text"> </input>
-        <div id="roundTimer"></div>
-      </div>
-    </div> --> <!-- END ROW -->
+</div>
 

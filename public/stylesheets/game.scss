@@ -49,11 +49,11 @@ p, li {
 }
 
 #currentRoom {
-  @include border-radius(5px);
   padding: 2em;
   @extend .well;
   @extend .span6;
   @extend .offset3;
+  display: none;
 }
 
 #playersList {
@@ -62,9 +62,6 @@ p, li {
 
 #playersList li.ready {
   color: green;
-}
-
-#mainArea {
 }
 
 #systemManagement h3 {
