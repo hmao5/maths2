@@ -70,33 +70,39 @@ p, li {
 }
 #inputReady {
   vertical-align: middle;
-}
-#inputReady.unready[disabled]:after {
-  content: 'Cannot ready until all players joined';
+  display: none;
 }
 
-#inputReady.ready:after {
-  display: inline;
-  margin-left: 1.2em;
-  content: "READY";
-  vertical-align: middle;
-  position: relative;
-  top: -.2em;
-  height: 1em;
-  @extend .label;
-  padding: .1em .3em;
+// #inputReady[data-status="ready"]::after, #inputReady::after, div::after {
+#inputReady[data-status="ready"] {
   background: green;
-}
-#inputReady.unready:after {
-  display: inline;
   margin-left: 1.2em;
-  content: "UNREADY";
+  vertical-align: middle;
+  position: relative;
+  top: -.2em;
+  height: 1em;
+  @extend .label;
+  padding: .1em .3em;
+}
+#inputReady[data-status="ready"]::after {
+  content: "CLICK TO UNREADY";
+  font-weight: bold;
+  color: white;
+}
+#inputReady[data-status="unready"]{
+  margin-left: 1.2em;
   vertical-align: middle;
   position: relative;
   top: -.2em;
   height: 1em;
   padding: .1em .3em;
   @extend .label;
+  background: gray;
+}
+#inputReady[data-status="unready"]::after {
+  content: "CLICK TO READY";
+  font-weight: bold;
+  color: white;
 }
 
 #inputPlayerName {

@@ -20,7 +20,7 @@ connectCB = (response, status, jqXHR) ->
 ready = ->
   console.log 'ready'
   data = 
-    round: window.lastUpdate.roundNum
+    round: window.lastUpdate?.roundNum
   ajaxSettings = 
     url: '/Ajax/ready'
     type: 'POST'
@@ -34,7 +34,7 @@ readyCB = (response, status, jqXHR) ->
 unready = ->
   console.log 'unready'
   data = 
-    round: window.lastUpdate.roundNum
+    round: window.lastUpdate?.roundNum
   ajaxSettings = 
     url: '/Ajax/unready'
     type: 'POST'
@@ -89,9 +89,11 @@ GAME_STATUS =
       return GAME_STATUS.IN_GAME
   onWaiting: ->
   onLobby: ->
+    $('#inputReady').toggle();
   onInGame: ->
     $('#inputReady').click();
     $('#inputReady').attr("disabled", true)
+    $('#gameArea').toggle();
   onGameEnd: ->
     do updates.clear
 
@@ -135,7 +137,7 @@ window.updates =
       status = GAME_STATUS.parse update 
       @gameStatusCallbacks(status) 
       # ....TODO do we need this
-      # gameSettings.setGameStatus status
+      gameSettings.setGameStatus status
 
 
       if status==GAME_STATUS.GAME_END

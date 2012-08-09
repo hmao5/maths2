@@ -4,13 +4,14 @@ window.ui =
     $('#buttonConnect').click -> do comm.connect
     $('#inputReady').click ->
       input = $('#inputReady')
-      if input.is(':checked') 
-        input.removeClass('unready')
-        input.addClass('ready')
+      console.log input.attr('data-status')
+      if input.attr('data-status') == "ready"
+        console.log input.attr('data-status')
+        input.attr('data-status', "unready")
         do comm.ready
       else
-        input.addClass('unready')
-        input.removeClass('ready')
+        console.log input.attr('data-status')
+        input.attr('data-status', "ready")
         do comm.unready
     $('#playerAnswer').keydown (event) ->
       if(event.which==13)
