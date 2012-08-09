@@ -115,17 +115,31 @@ p, li {
 }
 
 #inputPlayerName {
-  font-size: 2em;
-  height: 1.5em;
+  // font-size: 2em;
+  height: 28px;
   vertical-align: middle;
-  display: inline-block;
-  padding: auto;
-  margin: 0px;
+  // display: inline-block;
+  // padding: auto;
+  // margin: 0px;
 }
 
 #buttonConnect {
-  vertical-align: middle;
-  margin: 0px;
+  // vertical-align: middle;
+  // margin: 0px;
+}
+
+#buttonConnectSettings {
+  @include border-radius(0px 6px 6px 0px);
+
+}
+#buttonConnectSettings .icon-cog {
+  background-image: url("../images/glyphicons-halflings.png");
+}
+#getStartedMoreOptions {
+  display: none;
+}
+#inputDesiredPlayers {
+  width: 5%;
 }
 
 

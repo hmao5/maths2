@@ -1,10 +1,61 @@
 $lightWhite: rgba(245, 245, 245, 1);
 
-@mixin border-radius($radius=3px) {
-  -webkit-border-radius: $radius $radius;
-  -moz-border-radius: $radius / $radius;
-  -khtml-border-radius: $radius / $radius;
-  border-radius: $radius / $radius; 
+@mixin prefixer ($property, $value,
+                 $webkit: true,
+                    $moz: true,
+                     $ms: false,
+                      $o: false,
+                   $spec: true) {
+  @if $webkit { -webkit-#{$property}: $value; }
+  @if $moz    {    -moz-#{$property}: $value; }
+  @if $ms     {     -ms-#{$property}: $value; }
+  @if $o      {      -o-#{$property}: $value; }
+  @if $spec   {         #{$property}: $value; }
+}
+
+@mixin border-radius ($radii) {
+  @include prefixer(border-radius, $radii, webkit, not moz);
+  @warn "border-radius mixin is deprecated and will be removed in the next major version release.";
+}
+
+@mixin border-top-left-radius($radii) {
+  @include prefixer(border-top-left-radius, $radii, webkit, not moz);
+  @warn "border-top-left-radius mixin is deprecated and will be removed in the next major version release.";
+}
+
+@mixin border-top-right-radius($radii) {
+  @include prefixer(border-top-right-radius, $radii, webkit, not moz);
+  @warn "border-top-right-radius mixin is deprecated and will be removed in the next major version release.";
+}
+
+@mixin border-bottom-left-radius($radii) {
+  @include prefixer(border-bottom-left-radius, $radii, webkit, not moz);
+  @warn "border-bottom-left-radius mixin is deprecated and will be removed in the next major version release.";
+}
+
+@mixin border-bottom-right-radius($radii) {
+  @include prefixer(border-bottom-right-radius, $radii, webkit, not moz);
+  @warn "border-bottom-right-radius mixin is deprecated and will be removed in the next major version release.";
+}
+
+@mixin border-top-radius($radii) {
+  @include border-top-left-radius($radii);
+  @include border-top-right-radius($radii);
+}
+
+@mixin border-right-radius($radii) {
+  @include border-top-right-radius($radii);
+  @include border-bottom-right-radius($radii);
+}
+
+@mixin border-bottom-radius($radii) {
+  @include border-bottom-left-radius($radii);
+  @include border-bottom-right-radius($radii);
+}
+
+@mixin border-left-radius($radii) {
+  @include border-top-left-radius($radii);
+  @include border-bottom-left-radius($radii);
 }
 
 .label {
@@ -16,11 +67,11 @@ $lightWhite: rgba(245, 245, 245, 1);
   white-space: nowrap;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #999;
-  @include border-radius
+  @include border-radius(3px);
 }
 
 .well {
-  @include border-radius(5px);
+  // @include border-radius(5px);
   background: $lightWhite;
   border: 1px solid darken($lightWhite, 5%);
   padding: 10px;

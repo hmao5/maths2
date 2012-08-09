@@ -1,8 +1,8 @@
-connect = (name) ->
+connect = (name, desiredPlayers) ->
   gameSettings.setPlayerName name
   data =
     playerName: gameSettings.player.name
-    desiredPlayers: 2
+    desiredPlayers: desiredPlayers
   console.log 'connect', data
   ajaxSettings =
     url: '/Ajax/connect'
@@ -16,6 +16,7 @@ connectCB = (response, status, jqXHR) ->
   console.log JSON.stringify(response)
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
+  do ui.instructions1
   updates.begin()
 
 ready = ->

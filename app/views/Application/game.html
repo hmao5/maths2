@@ -18,12 +18,16 @@
     <a class="close" data-dismiss="alert">&#215;</a>
     <br>
     <p id="instructions"> Welcome to Maths 2, the fun way to practice maths with your friends! 
-     To get started, enter your username below and hit connect </p>
+    To get started, enter your username below and hit connect </p>
   </div>
 
   <div id="getStarted">
-    <input placeholder="Enter your username" type="text" id="inputPlayerName"> </input>
-    <a href="#" class="btn btn-large btn-primary" id="buttonConnect"> Connect </a>
+    <div class="input-append">
+      <input placeholder="Enter your username" type="text" id="inputPlayerName"><button type="button" class="btn btn-large btn-primary" id="buttonConnect">Connect</button><button id="buttonConnectSettings" type="button" class="btn btn-large"><i class="icon-black icon-cog"></i> </button>
+    </div>
+    <div id="getStartedMoreOptions">
+      <div class="input-prepend"> <span class="add-on">number of players in game</span><input type="number" value="1" id="inputDesiredPlayers"> </div>
+    </div>
   </div>
 
   <div id="gameArea">
@@ -36,10 +40,8 @@
       </div>
     </div>
     <input id="playerAnswer" type="text"> </input>
-  <div id="roundTimer"></div>
+    <div id="roundTimer"></div>
   </div>
-
-
 
 
   <div id="currentRoom">

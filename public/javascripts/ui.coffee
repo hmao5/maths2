@@ -7,9 +7,13 @@ window.ui =
       if name == ""
         $('#inputPlayerName').val("Your name can't be blank!")
       else
-        comm.connect name
+        desiredPlayers = $('#inputDesiredPlayers').val()
+        console.log desiredPlayers
+        comm.connect name, desiredPlayers
         do $('#getStarted').slideUp
         do $('#currentRoom').slideDown
+    $('#buttonConnectSettings').click ->
+      do $('#getStartedMoreOptions').slideToggle
     $('#inputReady').click ->
       input = $('#inputReady')
       console.log input.attr('data-status')
@@ -43,6 +47,8 @@ window.ui =
       questiondiv.attr("id", "question#{i}")
       questiondiv.appendTo("#questionsWrapper")
       questiondiv.hide();
+  instructions1: ->
+    $('#instructions').text("You're now in the lobby. You'll need to wait until #{gameSettings.maxPlayers} join the game until you can start.")
   init: ->
     do @initQuestions
     do @initBindings
