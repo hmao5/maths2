@@ -31,8 +31,11 @@ window.ui =
         $('#playerAnswer').val('')
 
   updatePlayers: (players) ->
+    # TODO (syu) this is buggy! when we skip player.id, we end up not populating all the player slots.
     localPlayer = {}
+    console.log "updatingPlayers"
     for player, i in players when player?
+      console.log player, i
       if player.id == gameSettings.player.id
         localPlayer = player 
         continue
