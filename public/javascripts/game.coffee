@@ -80,10 +80,10 @@ PLAYER_STATUS =
   READY: 'READY'
   DISCONNECTED: 'DISCONNECTED'
 GAME_STATUS =
-  WAITING: 'WAITING'
-  LOBBY: 'LOBBY'
-  IN_GAME: 'IN_GAME'
-  GAME_END: 'GAME_END'
+  WAITING: 'Waiting for other players to join'
+  LOBBY: 'In lobby'
+  IN_GAME: 'In game'
+  GAME_END: 'Game over'
   parse: (update) ->
     if update.gameEnd
       return GAME_STATUS.GAME_END
@@ -136,7 +136,7 @@ window.updates =
     @timer = {}
     @begin =  ->
       console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 2000
+      @timer = setInterval (=> do @getUpdate ), 50
     @clear = ->
       clearInterval @timer
     @getUpdate = ->
