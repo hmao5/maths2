@@ -16,13 +16,17 @@ connectCB = (response, status, jqXHR) ->
   console.log JSON.stringify(response)
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
+  gameSettings.maxPlayers = response.maxPlayers
+  console.log gameSettings
+  do ui.initPlayers
+  do ui.updateLocalPlayer
   do ui.instructions1
   updates.begin()
 
 ready = ->
   console.log 'ready'
   data =
-    round: window.lastUpdate?.roundNum
+    round: gameSettings.lastUpdate?.roundNum
   ajaxSettings =
     url: '/Ajax/ready'
     type: 'POST'
@@ -36,7 +40,7 @@ readyCB = (response, status, jqXHR) ->
 unready = ->
   console.log 'unready'
   data =
-    round: window.lastUpdate?.roundNum
+    round: gameSettings.lastUpdate?.roundNum
   ajaxSettings =
     url: '/Ajax/unready'
     type: 'POST'
@@ -52,7 +56,7 @@ answer = ->
   console.log 'answer', ans
   answer_matches = false
   # validations
-  (answer_matches = true) for problem in window.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)
+  (answer_matches = true) for problem in gameSettings.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)
   return unless answer_matches
   console.log 'sending answer to server', ans
   data =
@@ -90,11 +94,15 @@ GAME_STATUS =
     else if update.roundStarted and update.gameStarted
       return GAME_STATUS.IN_GAME
   onWaiting: ->
+    console.log "onWaiting!"
   onLobby: ->
-    $('#inputReady').toggle();
+    console.log "onLobby!"
+    $('#inputReady').show();
   onInGame: ->
+    console.log "onGame!"
     $('#gameArea').slideDown();
   onGameEnd: ->
+    console.log "onEnd!"
     do updates.clear
 
 
@@ -126,6 +134,11 @@ window.comm =
 window.updates =
   init: ->
     @timer = {}
+    @begin =  ->
+      console.log "polling for updates"
+      @timer = setInterval (=> do @getUpdate ), 2000
+    @clear = ->
+      clearInterval @timer
     @getUpdate = ->
       ajaxSettings =
         url: '/Ajax/getUpdate'
@@ -133,30 +146,18 @@ window.updates =
         success: @getUpdateCB
         error: @clear
       $.ajax ajaxSettings
+
     @getUpdateCB = (update, updateStatus, jqXHR) =>
       console.log update
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
-      # ....TODO do we need this
-      gameSettings.setGameStatus status
-
-
-      if status==GAME_STATUS.GAME_END
-        do @clear
-
-      # TODO(syu) don't clear the html (fix scrolling problem)
-      $("#playersList").html('')
-      for player in update.players when player?
-        $("#playersList").append("<li id='player#{player.id}'> </li>")
-        $("#player#{player.id}").text("#{player.name}   #{player.score}")
-        $("#player#{player.id}").addClass("ready") if player.ready
-        $("#player#{player.id}").removeClass("ready") unless player.ready
-      if status == GAME_STATUS.LOBBY
-        true
+      ui.updatePlayers update.players
       if status == GAME_STATUS.IN_GAME
-        ui.updateProblems update.activeProblems
+        ui.updateQuestions update.activeProblems
+      gameSettings.setGameStatus status
+      gameSettings.lastUpdate = update
 
-      window.lastUpdate = update
+
     @gameStatusCallbacks = (newStatus) ->
       oldStatus = gameSettings.gameStatus
       if newStatus != oldStatus
@@ -164,11 +165,8 @@ window.updates =
         do GAME_STATUS.onLobby if newStatus == GAME_STATUS.LOBBY
         do GAME_STATUS.onInGame if newStatus == GAME_STATUS.IN_GAME
         do GAME_STATUS.onGameEnd if newStatus == GAME_STATUS.GAME_END
-    @begin =  ->
-      console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 2000
-    @clear = ->
-      clearInterval @timer
+
+
 
 $ ->
   do ui.init

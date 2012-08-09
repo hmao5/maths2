@@ -39,9 +39,9 @@ p, li {
 
 .bodyWrap{ 
   margin: 0px auto;
-  text-align: center;
   display: block;
   float:none;
+  text-align: left;
 }
 
 #welcomeBanner {
@@ -50,7 +50,7 @@ p, li {
 }
 
 #intro {
-
+  text-align: center;
 }
 
 #intro #instructions {
@@ -70,11 +70,37 @@ p, li {
 }
 
 #playersList {
-  list-style: none;
 }
 
-#playersList li.ready {
-  color: green;
+#playerSlotTemplate {
+  display: none;
+}
+
+.playerSlot {
+  font-size: 2em;
+}
+.playerSlot[data-empty] {
+  display: block;
+  color: lighten(black, 15%);
+}
+
+.playerSlot[data-empty]::after {
+  content: "EMPTY SLOT";
+  color: lighten(black, 45%);
+}
+
+.playerSlot .playerReady {
+  display: none;
+}
+.playerSlot[data-ready] .playerReady {
+  display: inline;
+  color: black;
+  background: green;
+}
+
+
+.playerName {
+  font-weight: bold;
 }
 
 #systemManagement h3 {
@@ -90,7 +116,7 @@ p, li {
   display: none;
 }
 
-// #inputReady[data-status="ready"]::after, #inputReady::after, div::after {
+/*
 #inputReady[data-status="ready"] {
   background: green;
   margin-left: 1.2em;
@@ -116,11 +142,13 @@ p, li {
   @extend .label;
   background: gray;
 }
+
 #inputReady[data-status="unready"]::after {
   content: "CLICK TO READY";
   font-weight: bold;
   color: white;
 }
+  */
 
 #inputPlayerName {
   // font-size: 2em;
@@ -141,7 +169,6 @@ p, li {
 
 }
 #buttonConnectSettings .icon-cog {
-  background-image: url("../images/glyphicons-halflings.png");
 }
 #getStartedMoreOptions {
   display: none;
@@ -172,4 +199,8 @@ p, li {
   margin-right: auto;
   display: block;
 
+}
+
+.icon-black {
+  background-image: url("../images/glyphicons-halflings.png");
 }

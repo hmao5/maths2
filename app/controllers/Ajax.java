@@ -52,6 +52,7 @@ public class Ajax extends Controller {
 		Logger.info(playerName+" connected as player "+u.id);
 		Map map = new HashMap();
 		map.put("id", u.id);
+		map.put("maxPlayers", game.maxPlayers);
 		renderJSON(map);
 	}
 	
