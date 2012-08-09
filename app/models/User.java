@@ -15,7 +15,7 @@ public class User extends Model {
 	@ManyToOne
 	public GameInstance game;
 	
-	public int score;
+	public int[] score;
 	
 	public boolean ready;
 	
@@ -28,7 +28,7 @@ public class User extends Model {
 	public User(String name, GameInstance game, int position) {
 		this.name = name;
 		this.game = game;
-		this.score = 0;
+		this.score = new int[game.totalRounds];
 		this.ready = false;
 		this.alive = true;
 		this.position = position;

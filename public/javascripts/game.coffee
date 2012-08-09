@@ -65,7 +65,7 @@ answer = ->
 answerCB = (response, status, jqXHR) ->
   console.log "answerCB data:"
   console.log JSON.stringify(response)
-  right = response.result=='RIGHT'
+  right = response.correctAndFirst
   console.log 'right: '+right
   
 PLAYER_STATUS = 
@@ -157,7 +157,7 @@ $ ->
       
     begin: ->
       console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 1000
+      @timer = setInterval (=> do @getUpdate ), 10
     clear: ->
       clear @timer
     gameStatus: (r) ->

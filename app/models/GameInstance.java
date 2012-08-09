@@ -7,6 +7,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
+import play.Logger;
 import play.db.jpa.Model;
 
 @Entity
@@ -50,7 +51,6 @@ public class GameInstance extends Model {
 	public void newRound() {
 		inRound = false;
 		for(User u: players) {
-			u.score = 0;
 			u.ready = false;
 			u.save();
 		}
@@ -75,7 +75,16 @@ public class GameInstance extends Model {
 		save();
 	}
 	public Problem newProblem(int position) {
-		Problem pr = new Problem(this, position, round).save();
-		return pr;
+		outer: for(int tries=0; tries<1000; tries++) {
+			Problem pr = new Problem(this, position, round);
+			for(Problem p: problems)
+				if(p.answeredBy==null && p.answer==pr.answer)
+					continue outer;
+			pr.save();
+			problems.add(pr);
+			return pr;
+		}
+		Logger.error("problem generation failed (after 1000 tries) to generate problem with a unique answer at round "+round);
+		return null;
 	}
 }

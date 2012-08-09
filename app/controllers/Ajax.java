@@ -90,26 +90,35 @@ public class Ajax extends Controller {
 		User user = getMyUser();
 		GameInstance game = user.game;
 		Double d = Double.parseDouble(ans.trim());
-		boolean right = false;
+		Problem problemAnswered = null;
 		for(Problem pr: game.problems) {
 			if(pr.answeredBy!=null) 
 				continue;
 			if(pr.answer == d) {
+				if(problemAnswered!=null) {
+					Logger.error("player's answer answered more than one question - this should never happen");
+					error("player's answer answered more than one question - this should never happen");
+				}
 				pr.answeredBy = user;
 				pr.save();
-				game.newProblem(pr.position);
-				user.score += 1;
+				user.score[game.round-1] += 1;
 				user.save();
-				right = true;
+				problemAnswered = pr;
 			}
 		}
-		Logger.info(user.name + " answered "+ans+(right?" and got points":""));
-		if(user.score>=game.pointsToWin) {
+		Logger.info(user.name + " answered "+ans+(problemAnswered!=null?
+				" and got #"+problemAnswered.id:""));
+		if(problemAnswered!=null) {
+			game.newProblem(problemAnswered.position);
+		}
+		if(user.score[game.round-1]>=game.pointsToWin) {
 			Logger.info("round "+game.round+" ended");
 			game.newRound();
 		}
 		Map map = new HashMap();
-		map.put("result", (right?"RIGHT":"WRONG OR TOO SLOW"));
+		map.put("correctAndFirst", problemAnswered!=null);
+		if(problemAnswered!=null) 
+			map.put("answeredProblemID", problemAnswered.id);
 		renderJSON(map);
 	}
 	
@@ -118,7 +127,7 @@ public class Ajax extends Controller {
 		User user = getMyUser();
 		GameInstance game = user.game;
 		for(User pl: game.players) {
-			if(pl.alive && pl.lastHeartbeat < time - 60000) {
+			if(pl.alive && pl.lastHeartbeat < time - 5000) {
 				pl.alive = false;
 				pl.save();
 				Logger.info(pl.name + " disconnected");
