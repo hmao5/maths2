@@ -37,13 +37,16 @@ p, li {
 
 #welcomeBanner {
   text-align: center;
-  margin: 0 auto;
+  margin: 1em auto;
 }
 
-#playersBar {
+#currentRoom {
   @include border-radius(5px);
   background: whitesmoke;
   padding: 2em;
+  @extend .well;
+  @extend .span8;
+  @extend .offset2;
 }
 
 #playersList {
@@ -111,8 +114,11 @@ p, li {
 }
 
 
-#questions {
+#gameArea {
   @extend .well;
+  @extend .span8;
+  @extend .offset2;
+  display: none;
 }
 
 .question {
