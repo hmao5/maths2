@@ -5,6 +5,7 @@ $darkGray: rgba(25, 25, 25, 1);
 body {
   background-color: white;
   font-size: 62.5%;
+  text-align: center;
 }
 
 h1 {
@@ -34,6 +35,13 @@ h4 {
 p, li {
   font-size: 1.6em;
   line-height: normal;
+}
+
+.bodyWrap{ 
+  margin: 0px auto;
+  text-align: center;
+  display: block;
+  float:none;
 }
 
 #welcomeBanner {

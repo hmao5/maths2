@@ -9,61 +9,57 @@
 #{script 'jquery.validate.min.js' /} 
 #{/set}
 
-<div class="span6 offset3">
+  <div class="bodyWrap span6">
 
 
-  <h1 id="welcomeBanner"> Maths II: Mathdool </h1>
+    <h1 id="welcomeBanner"> Maths II: Mathdool </h1>
 
-  <div id="intro" class="alert alert-success ">
-    <a class="close" data-dismiss="alert">&#215;</a>
-    <br>
-    <p id="instructions"> Welcome to Maths 2, the fun way to practice maths with your friends! 
-    To get started, enter your username below and hit connect </p>
-  </div>
-
-  <div id="getStarted">
-    <div class="input-append">
-      <input placeholder="Enter your username" type="text" id="inputPlayerName"><button type="button" class="btn btn-large btn-primary" id="buttonConnect">Connect</button><button id="buttonConnectSettings" type="button" class="btn btn-large"><i class="icon-black icon-cog"></i> </button>
+    <div id="intro" class="alert alert-success ">
+      <a class="close" data-dismiss="alert">&#215;</a>
+      <br>
+      <p id="instructions"> Welcome to Maths 2, the fun way to practice maths with your friends! 
+      To get started, enter your username below and hit connect </p>
     </div>
-    <div id="getStartedMoreOptions">
-      <div class="input-prepend"> <span class="add-on">number of players in game</span><input type="number" value="1" id="inputDesiredPlayers"> </div>
-    </div>
-  </div>
 
-  <div id="gameArea">
-    <div id="questions" class="well">
-      <h2> Questions </h2>
-      <div class="question" id="questionTemplate">
-        <h3> question </h3>
+    <div id="getStarted">
+      <div class="input-append">
+        <input placeholder="Enter your username" type="text" id="inputPlayerName"><button type="button" class="btn btn-large btn-primary" id="buttonConnect">Connect</button><button id="buttonConnectSettings" type="button" class="btn btn-large"><i class="icon-black icon-cog"></i> </button>
       </div>
-      <div id="questionsWrapper">
+      <div id="getStartedMoreOptions">
+        <div class="input-prepend"> <span class="add-on">number of players in game</span><input type="number" value="1" id="inputDesiredPlayers"> </div>
       </div>
     </div>
-    <input id="playerAnswer" type="text"> </input>
-    <div id="roundTimer"></div>
-  </div>
+
+    <div id="gameArea">
+      <div id="questions" class="well">
+        <h2> Questions </h2>
+        <div class="question" id="questionTemplate">
+          <h3> question </h3>
+        </div>
+        <div id="questionsWrapper">
+        </div>
+      </div>
+      <input id="playerAnswer" type="text"> </input>
+      <div id="roundTimer"></div>
+    </div>
 
 
-  <div id="currentRoom">
-    <h2> Room: Walloping Winnifreds </h2>
-    <h3 id="gameStatus"> Status: <span> </span> </h3>
-    <h2> You </h2>
-    <h3 id="playerStatus"> Status: <span> </span> </h3>
-    <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
-    <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
-    <h3 id="readyDisplay"> </h3>  <a href="#" class="btn" id="inputReady" data-status="unready"> </a> <!-- input id="inputReady" type="checkbox" class="unready" /> <label id="labelReady"></label-->
+    <div id="currentRoom">
+      <h2> Room: Walloping Winnifreds </h2>
+      <h3 id="gameStatus"> Status: <span> </span> </h3>
+      <h2> You </h2>
+      <h3 id="playerStatus"> Status: <span> </span> </h3>
+      <h3 id="playerNameDisplay"> Playername: <span> </span> </h3>
+      <h3 id="playerIDdisplay"> PlayerID: <span> </span> </h3>
+      <h3 id="readyDisplay"> </h3>  <a href="#" class="btn" id="inputReady" data-status="unready"> </a> <!-- input id="inputReady" type="checkbox" class="unready" /> <label id="labelReady"></label-->
 
-      <div id="notifications"> </div>
-      <h2> Current Players </h2>
-      <ul id="playersList">
-        <li> Haitao 5 </li>
-        <li> Haitao 5 </li>
-        <li> Haitao 5 </li>
-        <li> Haitao 5 </li>
-      </ul>
-    </div> <!-- end current room -->
-  </div> <!-- end span6 -->
-
-
-</div>
-
+        <div id="notifications"> </div>
+        <h2> Current Players </h2>
+        <ul id="playersList">
+          <li> Haitao 5 </li>
+          <li> Haitao 5 </li>
+          <li> Haitao 5 </li>
+          <li> Haitao 5 </li>
+        </ul>
+      </div> <!-- end current room -->
+    </div> <!-- end span6 -->
