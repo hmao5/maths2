@@ -89,7 +89,13 @@ public class Ajax extends Controller {
 		if(ans==null) error("null ans");
 		User user = getMyUser();
 		GameInstance game = user.game;
-		Double d = Double.parseDouble(ans.trim());
+		if(!game.started) error("game has not started");
+		if(!game.inRound) error("not in round yet");
+		if(game.ended) error("game has already ended");
+		double d = -1;
+		try { 
+			d = Double.parseDouble(ans.trim()); 
+		} catch(Exception e) { error("cannot parse "+ans+" into a double"); }
 		Problem problemAnswered = null;
 		for(Problem pr: game.problems) {
 			if(pr.answeredBy!=null) 
@@ -111,10 +117,7 @@ public class Ajax extends Controller {
 		if(problemAnswered!=null) {
 			game.newProblem(problemAnswered.position);
 		}
-		if(user.score[game.round-1]>=game.pointsToWin) {
-			Logger.info("round "+game.round+" ended");
-			game.newRound();
-		}
+		game.checkRoundEnd();
 		Map map = new HashMap();
 		map.put("correctAndFirst", problemAnswered!=null);
 		if(problemAnswered!=null) 
@@ -137,6 +140,7 @@ public class Ajax extends Controller {
 			user.lastHeartbeat = time;
 			user.save();
 		}
+		game.checkRoundTime();
 		renderJSON(new Update(game));
 	}
 }

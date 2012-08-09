@@ -114,14 +114,15 @@ $ ->
         url: '/Ajax/getUpdate'
         type: 'GET'
         success: @getUpdateCB
+        error: @clear
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
       #console.log 'getupdate response', status, response
       window.lastUpdate = response
       status = updates.gameStatus response 
       gameSettings.setGameStatus status
-      
-    
+      if status==GAME_STATUS.GAME_END
+        @clear
       if status == GAME_STATUS.WAITING
         true
       $("#playersList").html('')
@@ -131,6 +132,7 @@ $ ->
         $("#player#{player.id}").addClass("ready") if player.ready
         $("#player#{player.id}").removeClass("ready") unless player.ready
       if status == GAME_STATUS.LOBBY
+        $("#questionsWrapper").html('')
         $('#inputReady').removeAttr('disabled')
       if status == GAME_STATUS.IN_GAME
         $("#questionsWrapper").html('')
@@ -141,31 +143,20 @@ $ ->
           questiondiv.attr("id", "question#{problem.id}")
           questiondiv.appendTo("#questionsWrapper")
           $("h3", questiondiv).text("#{problem.question}")
-          
-
+        $('#roundTimer').text(Math.floor(response.roundTimerMillis/1000));
         $('#inputReady').attr("disabled", true)
-
-        
-      # if status == waiting
-      #    update player list
-      # if status == lobby
-      #    update player statuses
-      # if status == in game
-      # display active problems
-      #  dispaly the score
-      #  .. sync timer?
       
     begin: ->
       console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 10
+      @timer = setInterval (=> do @getUpdate ), 50
     clear: ->
-      clear @timer
+      clearInterval @timer
     gameStatus: (r) ->
-      if !r.roundStarted and !r.gameStarted
+      if r.gameEnd
+        return GAME_STATUS.GAME_END
+      else if !r.roundStarted and !r.gameStarted
         return GAME_STATUS.WAITING
       else if !r.roundStarted and r.gameStarted
         return GAME_STATUS.LOBBY
       else if r.roundStarted and r.gameStarted
         return GAME_STATUS.IN_GAME
-      else if r.gameEnd
-        return GAME_STATUS.GAME_END

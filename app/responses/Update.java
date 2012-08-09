@@ -13,6 +13,7 @@ public class Update {
 	public PlayerI[] players;
 	public int roundNum;
 	public boolean roundStarted;
+	public int roundTimerMillis;
 	public boolean gameStarted;
 	public boolean gameEnded;
 	
@@ -34,6 +35,8 @@ public class Update {
 		roundStarted = game.inRound;
 		gameStarted = game.started;
 		gameEnded = game.ended;
+		roundTimerMillis = Math.max(0,(int)(game.roundTimeLimit*1000-
+				(System.currentTimeMillis()-game.roundStartMillis)));
 	}
 	
 }

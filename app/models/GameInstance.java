@@ -23,33 +23,42 @@ public class GameInstance extends Model {
 	public int problemsAtOnce;
 	public int maxPlayers;
 	public int pointsToWin;
+	public int roundTimeLimit;
 	public int totalRounds;
 	
 	public boolean started;
 	public boolean ended;
-	
+	public long roundStartMillis;
 	public boolean inRound;
+	public boolean roundTimeUp;
 	
 	public GameInstance() {
+		this.players = new ArrayList<User>();
+		this.problems = new ArrayList<Problem>();
 		this.round = 0;
 		this.started = false;
 		this.ended = false;
+		this.roundStartMillis = 0L;
 		this.inRound = false;
+		this.roundTimeUp = false;
+		
+		// TODO factor these out of this constructor
 		this.problemsAtOnce = 3;
 		this.maxPlayers = 2;
-		this.pointsToWin = 10;
+		this.pointsToWin = 5;
+		this.roundTimeLimit = 30;
 		this.totalRounds = 3;
-		this.players = new ArrayList<User>();
-		this.problems = new ArrayList<Problem>();
 	}
 	
 	public void start() {
+		Logger.info("game started");
 		started = true;
 		newRound();
 		save();
 	}
 	public void newRound() {
 		inRound = false;
+		roundTimeUp = false;
 		for(User u: players) {
 			u.ready = false;
 			u.save();
@@ -64,17 +73,16 @@ public class GameInstance extends Model {
 		}
 		save();
 	}
-	public void end() {
-		ended = true;
-		save();
-	}
 	public void startRound() {
 		inRound = true;
 		for(int i=0; i<problemsAtOnce; i++) 
 			newProblem(i);
+		roundStartMillis = System.currentTimeMillis();
 		save();
 	}
 	public Problem newProblem(int position) {
+		if(roundTimeUp || !inRound) 
+			return null;
 		outer: for(int tries=0; tries<1000; tries++) {
 			Problem pr = new Problem(this, position, round);
 			for(Problem p: problems)
@@ -86,5 +94,27 @@ public class GameInstance extends Model {
 		}
 		Logger.error("problem generation failed (after 1000 tries) to generate problem with a unique answer at round "+round);
 		return null;
+	}
+	public void checkRoundTime() {
+		if(!started||ended||!inRound)
+			return;
+		if(roundTimeLimit*1000-(System.currentTimeMillis()-roundStartMillis)>0)
+			return;
+		roundTimeUp = true;
+		save();
+	}
+	public void checkRoundEnd() {
+		if(!started||ended||!inRound)
+			return;
+		for(Problem pr: problems)
+			if(pr.answeredBy==null)
+				return;
+		Logger.info("round "+round+" ended");
+		newRound();
+	}
+	public void end() {
+		Logger.info("game ended");
+		ended = true;
+		save();
 	}
 }
