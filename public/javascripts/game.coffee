@@ -91,7 +91,6 @@ GAME_STATUS =
   onLobby: ->
     $('#inputReady').toggle();
   onInGame: ->
-    $('#inputReady').click();
     $('#inputReady').attr("disabled", true)
     $('#gameArea').toggle();
   onGameEnd: ->
@@ -172,11 +171,10 @@ window.updates =
         do GAME_STATUS.onGameEnd if newStatus == GAME_STATUS.GAME_END
     @begin =  ->
       console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 50
+      @timer = setInterval (=> do @getUpdate ), 2000
     @clear = ->
       clearInterval @timer
 
 $ ->
-  do ui.uiInit
-  do ui.initBindings
+  do ui.init
   do updates.init

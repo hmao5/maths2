@@ -1,4 +1,4 @@
-window.ui = 
+window.ui =
   initBindings: ->
     console.log 'bindings'
     $('#buttonConnect').click -> do comm.connect
@@ -8,16 +8,16 @@ window.ui =
       if input.attr('data-status') == "ready"
         console.log input.attr('data-status')
         input.attr('data-status', "unready")
-        do comm.ready
+        do comm.unready
       else
         console.log input.attr('data-status')
         input.attr('data-status', "ready")
-        do comm.unready
+        do comm.ready
     $('#playerAnswer').keydown (event) ->
       if(event.which==13)
         do event.preventDefault
         do comm.answer
         $('#playerAnswer').val('')
-  uiInit: ->
-    true
+  init: ->
+    do @initBindings
 
