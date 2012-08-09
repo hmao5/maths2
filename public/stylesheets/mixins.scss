@@ -1,3 +1,5 @@
+$lightWhite: rgba(245, 245, 245, 1);
+
 @mixin border-radius($radius=3px) {
   -webkit-border-radius: $radius $radius;
   -moz-border-radius: $radius / $radius;
@@ -17,3 +19,10 @@
   @include border-radius
 }
 
+.well {
+  @include border-radius(5px);
+  background: $lightWhite;
+  border: 1px solid darken($lightWhite, 5%);
+  padding: 10px;
+  margin: 12px 0px;
+}

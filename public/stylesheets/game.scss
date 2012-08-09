@@ -40,13 +40,20 @@ p, li {
   margin: 1em auto;
 }
 
+#intro {
+
+}
+
+#getStarted {
+  @extend .well;
+}
+
 #currentRoom {
   @include border-radius(5px);
-  background: whitesmoke;
   padding: 2em;
   @extend .well;
-  @extend .span8;
-  @extend .offset2;
+  @extend .span6;
+  @extend .offset3;
 }
 
 #playersList {
