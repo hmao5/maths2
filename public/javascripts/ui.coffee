@@ -18,6 +18,18 @@ window.ui =
         do event.preventDefault
         do comm.answer
         $('#playerAnswer').val('')
+
+
+
+
+  initQuestions: ->
+    $("#questionsWrapper").html('')
+    for i in [0..5]
+      questiondiv = $('#questionTemplate').clone()
+      questiondiv.attr("id", "question#{i}")
+      questiondiv.appendTo("#questionsWrapper")
+      questiondiv.hide();
   init: ->
+    do @initQuestions
     do @initBindings
 
