@@ -78,6 +78,23 @@ GAME_STATUS =
   LOBBY: 'LOBBY'
   IN_GAME: 'IN_GAME'
   GAME_END: 'GAME_END'
+  parse: (update) ->
+    if update.gameEnd
+      return GAME_STATUS.GAME_END
+    else if !update.roundStarted and !update.gameStarted
+      return GAME_STATUS.WAITING
+    else if !update.roundStarted and update.gameStarted
+      return GAME_STATUS.LOBBY
+    else if update.roundStarted and update.gameStarted
+      return GAME_STATUS.IN_GAME
+  onWaiting: ->
+  onLobby: ->
+  onInGame: ->
+    $('#inputReady').click();
+    $('#inputReady').attr("disabled", true)
+  onGameEnd: ->
+    do updates.clear
+
 
 window.gameSettings = 
   player: {}
@@ -105,63 +122,59 @@ window.comm =
   answerCB: answerCB
 
 window.updates = 
-  timer: {}
-  getUpdate: ->
-    ajaxSettings =
-      url: '/Ajax/getUpdate'
-      type: 'GET'
-      success: @getUpdateCB
-      error: @clear
-    $.ajax ajaxSettings
-  getUpdateCB: (response, status, jqXHR) ->
-    window.lastUpdate = response
-    status = updates.gameStatus response 
-    gameSettings.setGameStatus status
+  init: ->
+    @timer = {}
+    @getUpdate = ->
+      ajaxSettings =
+        url: '/Ajax/getUpdate'
+        type: 'GET'
+        success: @getUpdateCB
+        error: @clear
+      $.ajax ajaxSettings
+    @getUpdateCB = (update, updateStatus, jqXHR) =>
+      status = GAME_STATUS.parse update 
+      @gameStatusCallbacks(status) 
+      # ....TODO do we need this
+      # gameSettings.setGameStatus status
 
-    if status==GAME_STATUS.GAME_END
-      do @clear
-    if status == GAME_STATUS.WAITING
-      true
 
-    # TODO(syu) don't clear the html (fix scrolling problem)
-    $("#playersList").html('')
-    for player in response.players when player?
-      $("#playersList").append("<li id='player#{player.id}'> </li>")
-      $("#player#{player.id}").text("#{player.name}   #{player.score}")
-      $("#player#{player.id}").addClass("ready") if player.ready
-      $("#player#{player.id}").removeClass("ready") unless player.ready
-    if status == GAME_STATUS.LOBBY
-      $("#questionsWrapper").html('')
-      $('#inputReady').removeAttr('disabled')
-    if status == GAME_STATUS.IN_GAME
-      $("#questionsWrapper").html('')
-      for problem in response.activeProblems when problem?
-        #$("#questionsWrapper").append("<li id='player#{player.id}'> #{player.name} </li>")
-        questiondiv = $('#questionTemplate').clone()
-        questiondiv.toggle()
-        questiondiv.attr("id", "question#{problem.id}")
-        questiondiv.appendTo("#questionsWrapper")
-        $("h3", questiondiv).text("#{problem.question}")
-      $('#roundTimer').text(Math.floor(response.roundTimerMillis/1000));
-      # unready 
-      $('#inputReady').click();
-      $('#inputReady').attr("disabled", true)
-    
-  begin: ->
-    console.log "polling for updates"
-    @timer = setInterval (=> do @getUpdate ), 50
-  clear: ->
-    clearInterval @timer
-  gameStatus: (r) ->
-    if r.gameEnd
-      return GAME_STATUS.GAME_END
-    else if !r.roundStarted and !r.gameStarted
-      return GAME_STATUS.WAITING
-    else if !r.roundStarted and r.gameStarted
-      return GAME_STATUS.LOBBY
-    else if r.roundStarted and r.gameStarted
-      return GAME_STATUS.IN_GAME
+      if status==GAME_STATUS.GAME_END
+        do @clear
+
+      # TODO(syu) don't clear the html (fix scrolling problem)
+      $("#playersList").html('')
+      for player in update.players when player?
+        $("#playersList").append("<li id='player#{player.id}'> </li>")
+        $("#player#{player.id}").text("#{player.name}   #{player.score}")
+        $("#player#{player.id}").addClass("ready") if player.ready
+        $("#player#{player.id}").removeClass("ready") unless player.ready
+      if status == GAME_STATUS.LOBBY
+        $("#questionsWrapper").html('')
+        $('#inputReady').removeAttr('disabled')
+      if status == GAME_STATUS.IN_GAME
+        $("#questionsWrapper").html('')
+        for problem in update.activeProblems when problem?
+          #$("#questionsWrapper").append("<li id='player#{player.id}'> #{player.name} </li>")
+          questiondiv = $('#questionTemplate').clone()
+          questiondiv.toggle()
+          questiondiv.attr("id", "question#{problem.id}")
+          questiondiv.appendTo("#questionsWrapper")
+          $("h3", questiondiv).text("#{problem.question}")
+      window.lastUpdate = update
+    @gameStatusCallbacks = (newStatus) ->
+      oldStatus = gameSettings.gameStatus
+      if newStatus != oldStatus
+        do GAME_STATUS.onWaiting if newStatus == GAME_STATUS.WAITING
+        do GAME_STATUS.onLobby if newStatus == GAME_STATUS.LOBBY
+        do GAME_STATUS.onInGame if newStatus == GAME_STATUS.IN_GAME
+        do GAME_STATUS.onGameEnd if newStatus == GAME_STATUS.GAME_END
+    @begin =  ->
+      console.log "polling for updates"
+      @timer = setInterval (=> do @getUpdate ), 50
+    @clear = ->
+      clearInterval @timer
 
 $ -> 
   do ui.uiInit
   do ui.initBindings
+  do updates.init
