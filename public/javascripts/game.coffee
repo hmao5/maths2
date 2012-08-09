@@ -48,10 +48,10 @@ unreadyCB = (response, status, jqXHR) ->
 answer = ->
   ans = $('#playerAnswer').val()
   console.log 'answer', ans
-  flag = false
-  (flag = true) for pr in window.lastUpdate.activeProblems when (pr? and Number(ans)==pr.answer)  
-  if not flag
-  	return
+  answer_matches = false
+  # validations
+  (answer_matches = true) for problem in window.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)  
+  return unless answer_matches
   console.log 'sending answer to server', ans
   data = 
     ans: ans
@@ -117,14 +117,15 @@ $ ->
         error: @clear
       $.ajax ajaxSettings
     getUpdateCB: (response, status, jqXHR) ->
-      #console.log 'getupdate response', status, response
       window.lastUpdate = response
       status = updates.gameStatus response 
       gameSettings.setGameStatus status
       if status==GAME_STATUS.GAME_END
-        @clear
+        do @clear
       if status == GAME_STATUS.WAITING
         true
+
+      # TODO(syu) don't clear the html (fix scrolling problem)
       $("#playersList").html('')
       for player in response.players when player?
         $("#playersList").append("<li id='player#{player.id}'> </li>")
@@ -144,6 +145,8 @@ $ ->
           questiondiv.appendTo("#questionsWrapper")
           $("h3", questiondiv).text("#{problem.question}")
         $('#roundTimer').text(Math.floor(response.roundTimerMillis/1000));
+        # unready 
+        $('#inputReady').click();
         $('#inputReady').attr("disabled", true)
       
     begin: ->
