@@ -19,5 +19,5 @@ window.ui =
         do comm.answer
         $('#playerAnswer').val('')
   uiInit: ->
-    $('#inputReady').attr("disabled", true)
+    true
 

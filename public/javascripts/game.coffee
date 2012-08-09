@@ -1,9 +1,9 @@
 connect = ->
   console.log 'connect'
   gameSettings.setPlayerName $('#inputPlayerName').val()
-  data = 
+  data =
     playerName: gameSettings.player.name
-  ajaxSettings = 
+  ajaxSettings =
     url: '/Ajax/connect'
     type: 'POST'
     success: connectCB
@@ -16,64 +16,64 @@ connectCB = (response, status, jqXHR) ->
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
   updates.begin()
-  
+
 ready = ->
   console.log 'ready'
-  data = 
+  data =
     round: window.lastUpdate?.roundNum
-  ajaxSettings = 
+  ajaxSettings =
     url: '/Ajax/ready'
     type: 'POST'
     success: readyCB
     data: data
   $.ajax ajaxSettings
-  
+
 readyCB = (response, status, jqXHR) ->
   console.log "readyCB called"
-  
+
 unready = ->
   console.log 'unready'
-  data = 
+  data =
     round: window.lastUpdate?.roundNum
-  ajaxSettings = 
+  ajaxSettings =
     url: '/Ajax/unready'
     type: 'POST'
     success: unreadyCB
     data: data
   $.ajax ajaxSettings
-  
+
 unreadyCB = (response, status, jqXHR) ->
   console.log "unreadyCB called"
-  
+
 answer = ->
   ans = $('#playerAnswer').val()
   console.log 'answer', ans
   answer_matches = false
   # validations
-  (answer_matches = true) for problem in window.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)  
+  (answer_matches = true) for problem in window.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)
   return unless answer_matches
   console.log 'sending answer to server', ans
-  data = 
+  data =
     ans: ans
-  ajaxSettings = 
+  ajaxSettings =
     url: '/Ajax/answer'
     type: 'POST'
     success: answerCB
     data: data
   $.ajax ajaxSettings
-  
+
 answerCB = (response, status, jqXHR) ->
   console.log "answerCB data:"
   console.log JSON.stringify(response)
   right = response.correctAndFirst
   console.log 'right: '+right
-  
-PLAYER_STATUS = 
+
+PLAYER_STATUS =
   UNCONNECTED: 'UNCONNECTED'
   CONNECTED: 'CONNECTED'
   READY: 'READY'
   DISCONNECTED: 'DISCONNECTED'
-GAME_STATUS = 
+GAME_STATUS =
   WAITING: 'WAITING'
   LOBBY: 'LOBBY'
   IN_GAME: 'IN_GAME'
@@ -98,7 +98,7 @@ GAME_STATUS =
     do updates.clear
 
 
-window.gameSettings = 
+window.gameSettings =
   player: {}
   setPlayerName: (name) ->
     this.player.name = name
@@ -123,7 +123,7 @@ window.comm =
   answer: answer
   answerCB: answerCB
 
-window.updates = 
+window.updates =
   init: ->
     @timer = {}
     @getUpdate = ->
@@ -134,8 +134,8 @@ window.updates =
         error: @clear
       $.ajax ajaxSettings
     @getUpdateCB = (update, updateStatus, jqXHR) =>
-      status = GAME_STATUS.parse update 
-      @gameStatusCallbacks(status) 
+      status = GAME_STATUS.parse update
+      @gameStatusCallbacks(status)
       # ....TODO do we need this
       gameSettings.setGameStatus status
 
@@ -176,7 +176,7 @@ window.updates =
     @clear = ->
       clearInterval @timer
 
-$ -> 
+$ ->
   do ui.uiInit
   do ui.initBindings
   do updates.init
