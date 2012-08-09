@@ -2,6 +2,7 @@ connect = (name) ->
   gameSettings.setPlayerName name
   data =
     playerName: gameSettings.player.name
+    desiredPlayers: 2
   console.log 'connect', data
   ajaxSettings =
     url: '/Ajax/connect'
@@ -132,6 +133,7 @@ window.updates =
         error: @clear
       $.ajax ajaxSettings
     @getUpdateCB = (update, updateStatus, jqXHR) =>
+      console.log update
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
       # ....TODO do we need this
