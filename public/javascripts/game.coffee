@@ -136,7 +136,7 @@ window.updates =
     @timer = {}
     @begin =  ->
       console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 50
+      @timer = setInterval (=> do @getUpdate ), 2000
     @clear = ->
       clearInterval @timer
     @getUpdate = ->
@@ -152,6 +152,7 @@ window.updates =
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
       ui.updatePlayers update.players
+      do ui.updateLocalPlayer 
       if status == GAME_STATUS.IN_GAME
         ui.updateQuestions update.activeProblems
       gameSettings.setGameStatus status

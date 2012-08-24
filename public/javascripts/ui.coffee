@@ -32,14 +32,22 @@ window.ui =
 
   updatePlayers: (players) ->
     # TODO (syu) this is buggy! when we skip player.id, we end up not populating all the player slots.
-    localPlayer = {}
+    localPlayer = null
     console.log "updatingPlayers"
     for player, i in players when player?
-      console.log player, i
       if player.id == gameSettings.player.id
         localPlayer = player 
+        gameSettings.player.score = player.score
         continue
-      playerDiv = $ "#playerSlot#{i}"
+      slotNumber = if localPlayer? then i - 1 else i
+      if localPlayer?
+        console.log "localPlayer exists,"
+        console.log i
+      else
+        console.log "localPlayer nil,"
+        console.log i
+      console.log player, i, slotNumber
+      playerDiv = $ "#playerSlot#{slotNumber}"
       playerDiv.removeAttr('data-empty')
       $('.playerName', playerDiv).text player.name
       $('.playerScore', playerDiv).text "#{player.score}"
@@ -53,16 +61,18 @@ window.ui =
       localPlayerDiv.attr('data-ready', true) 
     else
       localPlayerDiv.removeAttr('data-ready')
-    $('.playerScore', localPlayerDiv).text "#{localPlayer.score}"
+      # $('.playerScore', localPlayerDiv).text "#{localPlayer.score}"
 
   updateLocalPlayer: ->
     playerDiv = $ "#playerSlotLocal"
-    $('.playerName', playerDiv).text gameSettings.player.name
+    player = gameSettings.player
+    console.log "local player is", player
+    $('.playerName', playerDiv).text player.name
+    $('.playerScore', playerDiv).text "#{player.score}"
     playerDiv.removeAttr 'data-empty'
 
   updateQuestions: (problems) ->
     for problem, i in problems  when problem?
-      # console.log i
       # console.log problem
       questiondiv = $("#question#{i}")
       $("h3", questiondiv).text("#{problem.question}")
