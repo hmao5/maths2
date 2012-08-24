@@ -78,6 +78,8 @@ window.ui =
       $("h3", questiondiv).text("#{problem.question}")
       questiondiv.show()
       # console.log questiondiv
+  updateTimer: (timeInMs) ->
+    $('#gameArea #timer').text(timeInMs / 1000)
 
   initPlayers: ->
     for i in [0.. (gameSettings.maxPlayers - 1)]

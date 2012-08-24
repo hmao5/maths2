@@ -157,6 +157,7 @@ window.updates =
       do ui.updateLocalPlayer 
       if status == GAME_STATUS.IN_GAME
         ui.updateQuestions update.activeProblems
+        ui.updateTimer(update.roundTimerMillis)
       gameSettings.setGameStatus status
       gameSettings.lastUpdate = update
 
