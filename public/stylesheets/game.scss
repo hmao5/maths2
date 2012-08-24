@@ -92,10 +92,18 @@ p, li {
 .playerSlot .playerReady {
   display: none;
 }
+
 .playerSlot[data-ready] .playerReady {
   display: inline;
   color: black;
   background: green;
+}
+
+#playerSlotLocal .playerName {
+  color: orange;
+  &::after {
+    content: " (you)";
+  }
 }
 
 
@@ -185,6 +193,8 @@ p, li {
   display: none;
 }
 
+#gameArea #timer {
+}
 #gameArea #questions h2#questionsHeader {
   text-align: center;
 }

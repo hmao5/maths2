@@ -17,7 +17,8 @@ connectCB = (response, status, jqXHR) ->
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
   gameSettings.maxPlayers = response.maxPlayers
-  gameSettings.pollingInterval = parseInt($('#inputPollingInterval').val()) || 250
+  gameSettings.pollingInterval = parseInt($('#inputPollingInterval').val()) || 1500
+  gameSettings.player.ready = false
   console.log gameSettings
   do ui.initPlayers
   do ui.updateLocalPlayer
