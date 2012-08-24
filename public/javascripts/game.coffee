@@ -17,6 +17,7 @@ connectCB = (response, status, jqXHR) ->
   gameSettings.setPlayerID(response.id)
   gameSettings.setPlayerStatus(PLAYER_STATUS.CONNECTED)
   gameSettings.maxPlayers = response.maxPlayers
+  gameSettings.pollingInterval = parseInt($('#inputPollingInterval').val()) || 250
   console.log gameSettings
   do ui.initPlayers
   do ui.updateLocalPlayer
@@ -135,8 +136,9 @@ window.updates =
   init: ->
     @timer = {}
     @begin =  ->
-      console.log "polling for updates"
-      @timer = setInterval (=> do @getUpdate ), 2000
+      console.log "polling for updates every #{gameSettings.pollingInterval}"
+      @timer = setInterval (=> do @getUpdate ), gameSettings.pollingInterval
+      
     @clear = ->
       clearInterval @timer
     @getUpdate = ->
