@@ -204,7 +204,9 @@ p, li {
 }
 
 
-.question {
+.question.solved {
+  color: blue;
+
 }
 
 #questionTemplate {

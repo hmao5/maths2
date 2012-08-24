@@ -7,6 +7,7 @@
 #{script 'game.coffee' /} 
 #{script 'ui.coffee' /} 
 #{script 'jquery.validate.min.js' /} 
+#{script 'underscore.js' /} 
 #{/set}
 
 <div class="bodyWrap span6">
@@ -50,12 +51,12 @@
   <div id="currentRoom">
     <h2 id="roomName"> Room: Walloping Winnifreds  </h2>
     <h4> <span id="gameStatus"> <span> </span> </span> </h4>
-      <h2> Current Players </h2>
+    <h2> Current Players </h2>
     <div id="playersList">
       <div id="playerSlotTemplate" class="playerSlot" data-empty="empty">
-          <span class="playerName"> </span>
-          <span class="playerReady"> <i class="icon-black icon-ok"></i> Ready </span>
-          <span class="playerScore"> </span> 
+        <span class="playerName"> </span>
+        <span class="playerReady"> <i class="icon-black icon-ok"></i> Ready </span>
+        <span class="playerScore"> </span> 
       </div>
     </div>
     <!--
@@ -67,6 +68,6 @@
     -->
     <a href="#" class="btn" id="inputReady"> click to toggle ready </a> 
 
-      <div id="notifications"> </div>
-    </div> <!-- end current room -->
-  </div> <!-- end span6 -->
+    <div id="notifications"> </div>
+  </div> <!-- end current room -->
+</div> <!-- end span6 -->
