@@ -79,7 +79,18 @@ window.ui =
       questiondiv.show()
       # console.log questiondiv
   updateTimer: (timeInMs) ->
-    $('#gameArea #timer').text(timeInMs / 1000)
+    $('#gameArea #timer').text(parseInt(timeInMs / 1000))
+    secondsWarning = 15
+    secondsRedAt = 5
+    percOutOfTime = (secondsWarning*1000 - Math.min(secondsWarning*1000, timeInMs - secondsRedAt*1000)) / (secondsWarning*1000)
+    console.log percOutOfTime
+    color = Math.min( Math.pow(percOutOfTime, 3) * 255, 255)
+    color = parseInt color
+    console.log Math.min(secondsWarning*1000, timeInMs) 
+    console.log color
+
+    $('#gameArea #timer').css('color', "rgb(#{color},0,0)")
+
 
   initPlayers: ->
     for i in [0.. (gameSettings.maxPlayers - 1)]
