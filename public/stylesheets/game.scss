@@ -37,6 +37,47 @@ p, li {
   line-height: normal;
 }
 
+
+#welcomeBanner {
+  position: absolute;
+  top: 50px;
+  left: 80px;
+}
+#roomName {
+  position: absolute;
+  top: 85px;
+  left: 80px;
+}
+#gameStatus {
+  position: absolute;
+  top: 110px;
+  left: 80px;
+}
+
+.topWrapWrap {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+}
+.topWrap {
+  margin: 0px auto;
+  display: block;
+  float:none;
+  text-align: left;
+}
+
+#intro {
+  text-align: center;
+}
+#intro #instructions {
+  font-size: 1.8em;
+}
+
+.bodyWrapWrap {
+  position: absolute;
+  top: 150px;
+  width: 100%;
+}
 .bodyWrap{ 
   margin: 0px auto;
   display: block;
@@ -44,18 +85,6 @@ p, li {
   text-align: left;
 }
 
-#welcomeBanner {
-  text-align: center;
-  margin: 1em auto;
-}
-
-#intro {
-  text-align: center;
-}
-
-#intro #instructions {
-  font-size: 2em;
-}
 
 #getStarted {
   @extend .well;
@@ -70,6 +99,7 @@ p, li {
 }
 
 #playersList {
+	margin-bottom: 20px;
 }
 
 #playerSlotTemplate {
@@ -193,7 +223,10 @@ p, li {
   display: none;
 }
 
-#gameArea #timer {
+#timer {
+	position: absolute;
+	top: 50px;
+	right: 80px;
 }
 #gameArea #questions h2#questionsHeader {
   text-align: center;

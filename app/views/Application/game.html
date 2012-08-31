@@ -10,16 +10,23 @@
 #{script 'underscore.js' /} 
 #{/set}
 
-<div class="bodyWrap span6">
+<h3 id="welcomeBanner"> Maths II: Mathdool </h3>
+<h4 id="roomName"> Room: Bubblehead  </h4>
+<h5 id="gameStatus"> <span> <!-- js inject --> </span> </h5>
 
-  <h1 id="welcomeBanner"> Maths II: Mathdool </h1>
+<h3 id="timer"> Time remaining... </h3>
 
-  <div id="intro" class="alert alert-success ">
-    <a class="close" data-dismiss="alert">&#215;</a>
-    <br>
-    <p id="instructions"> Welcome to Maths 2, the fun way to practice maths with your friends! 
-    To get started, enter your username below and hit connect </p>
-  </div>
+<div class="topWrapWrap"><div class="topWrap span8">
+	<div id="intro" class="alert alert-success notificationBar">
+	    <a class="close" data-dismiss="alert">&#215;</a>
+	    <br>
+	    <p id="instructions"> Welcome to Maths 2, the fun way to practice maths with your friends! 
+	    To get started, enter your username below and hit connect </p>
+	</div>
+</div></div>
+
+<div class="bodyWrapWrap"><div class="bodyWrap span6">
+
 
   <div id="getStarted">
     <div class="input-append">
@@ -28,14 +35,13 @@
     <div id="getStartedMoreOptions">
       <div class="input-prepend"> 
         <span class="add-on">number of players in game</span><input type="number" value="1" id="inputDesiredPlayers">
-        <span class="add-on">polling interval (ms)</span><input type="number" value="1550" id="inputPollingInterval">
+        <span class="add-on">polling interval (ms)</span><input type="number" value="50" id="inputPollingInterval">
       </div>
     </div>
   </div>
 
   <div id="gameArea">
     <div id="questions" class="well">
-      <h3 id="timer"> Time remaining... </h3>
       <h2 id="questionsHeader"> Questions </h2>
       <div class="question" id="questionTemplate">
         <h3> question </h3>
@@ -49,9 +55,6 @@
 
 
   <div id="currentRoom">
-    <h2 id="roomName"> Room: Walloping Winnifreds  </h2>
-    <h4> <span id="gameStatus"> <span> </span> </span> </h4>
-    <h2> Current Players </h2>
     <div id="playersList">
       <div id="playerSlotTemplate" class="playerSlot" data-empty="empty">
         <span class="playerName"> </span>
@@ -70,4 +73,4 @@
 
     <div id="notifications"> </div>
   </div> <!-- end current room -->
-</div> <!-- end span6 -->
+</div></div> <!-- end span6 -->

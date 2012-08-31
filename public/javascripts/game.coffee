@@ -1,8 +1,12 @@
-connect = (name, desiredPlayers) ->
+
+
+connect = (name, desiredPlayers, roundDuration) ->
   gameSettings.setPlayerName name
+  gameSettings.roundDuration = roundDuration
   data =
     playerName: gameSettings.player.name
     desiredPlayers: desiredPlayers
+    roundDuration: roundDuration
   console.log 'connect', data
   ajaxSettings =
     url: '/Ajax/connect'

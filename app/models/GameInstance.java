@@ -23,7 +23,7 @@ public class GameInstance extends Model {
 	public int problemsAtOnce;
 	public int maxPlayers;
 	public int pointsToWin;
-	public int roundTimeLimit;
+	public int roundDuration;
 	public int totalRounds;
 	
 	public boolean started;
@@ -32,7 +32,7 @@ public class GameInstance extends Model {
 	public boolean inRound;
 	public boolean roundTimeUp;
 	
-        public GameInstance(int maxPlayers) {
+	public GameInstance(int maxPlayers, int roundDuration) {
 		this.players = new ArrayList<User>();
 		this.problems = new ArrayList<Problem>();
 		this.round = 0;
@@ -46,12 +46,8 @@ public class GameInstance extends Model {
 		// TODO factor these out of this constructor
 		this.problemsAtOnce = 3;
 		this.pointsToWin = 5;
-		this.roundTimeLimit = 30;
+		this.roundDuration = roundDuration;
 		this.totalRounds = 3;
-        }
-
-	public GameInstance() {
-                this(2);
 	}
 	
 	public void start() {
@@ -102,7 +98,7 @@ public class GameInstance extends Model {
 	public void checkRoundTime() {
 		if(!started||ended||!inRound)
 			return;
-		if(roundTimeLimit*1000-(System.currentTimeMillis()-roundStartMillis)>0)
+		if(roundDuration*1000-(System.currentTimeMillis()-roundStartMillis)>0)
 			return;
 		roundTimeUp = true;
 		save();

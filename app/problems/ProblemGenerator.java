@@ -1,14 +1,20 @@
 package problems;
 
+import java.lang.reflect.Constructor;
+
+import levels.Level;
+
 public class ProblemGenerator {
 	public static QuestionAnswerPair generate(int round) {
-		
-		int a = 1+(int)(Math.random()*(Math.pow(10, round)-1));
-		int b = 1+(int)(Math.random()*(Math.pow(10, round)-1));
-		
-		String question = a+"+"+b;
-		double answer = a+b;
-		
-		return new QuestionAnswerPair(question, answer);
+		try {
+			Class c = Class.forName("levels.Level"+round);
+			Constructor cons = c.getConstructor();
+			Level l = (Level)cons.newInstance();
+			
+			return l.getNextProblem();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
