@@ -21,8 +21,8 @@ public class Problem extends Model {
 	public Problem(GameInstance game, int position, int round) {
 		this.game = game;
 		QuestionAnswerPair pair = ProblemGenerator.generate(round);
-		this.question = pair.question;
-		this.answer = pair.answer;
+		this.question = pair.getProblem();
+		this.answer = pair.getAnswer();
 		this.answeredBy = null;
 		this.position = position;
 	}
