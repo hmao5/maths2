@@ -26,4 +26,8 @@ public class Problem extends Model {
 		this.answeredBy = null;
 		this.position = position;
 	}
+	
+	public String toString() {
+		return question;
+	}
 }
