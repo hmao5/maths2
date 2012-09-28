@@ -93,14 +93,18 @@ window.ui =
       questiondiv = $(".question[data-problemID=#{solvedProblem?.id}]")
       questiondiv.attr('data-problemID', newProblem?.id)
 
-      @renderQuestion(questiondiv, newProblem)
+      @renderQuestion(questiondiv, newProblem, solvedProblem)
 
 
 
-  renderQuestion: (questiondiv, newProblem) ->
+  renderQuestion: (questiondiv, newProblem, solvedProblem) ->
+    targetColor = (if solvedProblem? then utils.playerIDtoHSLAstring(solvedProblem.answeredBy, gameSettings.maxPlayers) else 'black')
+    console.log 'targetColor', targetColor
+
     questiondiv.animate
       left: '+=50px'
-      opacity: 0.25
+      color: targetColor
+      opacity: 1
       , 200
       , ->
         console.log "questiondiv", questiondiv
@@ -135,15 +139,14 @@ window.ui =
       playerDiv = $(".playerSlot[data-playerId=#{guess.playerId}]")
       guessDiv = $('<span/>').addClass('playerGuess')
       guessDiv.text(guess.answer)
+      guessDiv.css('color', utils.playerIDtoHSLAstring(guess.playerId, gameSettings.maxPlayers))
       playerDiv.find('.playerGuesses').append(guessDiv)
       guessDiv.hide()
-      $(guessDiv).fadeIn 500,
+      $(guessDiv).slideDown 200,
         ->
           console.log this
           #  $(guessDiv).effect('bounce', times: 2, direction: 'up')
-          $(this).fadeOut(500, -> $(this).remove())
-
-
+          $(this).fadeOut(800, -> $(this).remove())
 
   cleanUpGameArea: () ->
     console.log 'cleanUpGameArea'
