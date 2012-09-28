@@ -59,6 +59,7 @@ p, li {
   top: 20px;
   width: 100%;
 }
+
 .topWrap {
   margin: 0px auto;
   display: block;
@@ -77,6 +78,7 @@ p, li {
   position: absolute;
   top: 150px;
   width: 100%;
+  @extend .row;
 }
 .bodyWrap{ 
   margin: 0px auto;
@@ -108,7 +110,13 @@ p, li {
 
 .playerSlot {
   font-size: 2em;
+  padding: 10px 2px;
+  border-bottom: 1px solid rgba(30, 30, 30, .35);
 }
+.playerSlot:last-child {
+  border-bottom: none;
+}
+
 .playerSlot[data-empty] {
   display: block;
   color: lighten(black, 15%);
