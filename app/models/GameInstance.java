@@ -19,6 +19,9 @@ public class GameInstance extends Model {
 	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
 	public List<Problem> problems;
 	
+	@OneToMany(mappedBy="game", cascade=CascadeType.ALL)
+	public List<Guess> guesses;
+	
 	public int round;
 	public int problemsAtOnce;
 	public int maxPlayers;
@@ -61,6 +64,8 @@ public class GameInstance extends Model {
 		roundTimeUp = false;
 		for(User u: players) {
 			u.ready = false;
+			for(Guess g: u.guesses)
+				g.delete();
 			u.save();
 		}
 		round++;
