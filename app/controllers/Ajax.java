@@ -130,6 +130,7 @@ public class Ajax extends Controller {
 		long time = System.currentTimeMillis();
 		User user = getMyUser();
 		GameInstance game = user.game;
+		System.out.println("Guesses: "+game.guesses);
 		for(User pl: game.players) {
 			if(pl.alive && pl.lastHeartbeat < time - 5000) {
 				pl.alive = false;
