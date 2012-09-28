@@ -116,6 +116,7 @@ GAME_STATUS =
   onGameEnd: ->
     ui.renderStatus('game over')
     do ui.cleanUpGameArea
+    do ui.transitionToScoreDisplay
     console.log "onEnd!"
     do updates.clear
 

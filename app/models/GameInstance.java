@@ -38,6 +38,7 @@ public class GameInstance extends Model {
 	public GameInstance(int maxPlayers, int roundDuration) {
 		this.players = new ArrayList<User>();
 		this.problems = new ArrayList<Problem>();
+		this.guesses = new ArrayList<Guess>();
 		this.round = 0;
 		this.started = false;
 		this.ended = false;
@@ -64,10 +65,12 @@ public class GameInstance extends Model {
 		roundTimeUp = false;
 		for(User u: players) {
 			u.ready = false;
-			for(Guess g: u.guesses)
-				g.delete();
 			u.save();
 		}
+		for(Guess g: guesses) {
+			g.delete();
+		}
+		guesses.clear();
 		round++;
 		for(Problem p: problems) {
 			p.delete();

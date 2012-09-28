@@ -132,7 +132,39 @@ window.ui =
       questiondiv = $("#question#{i}")
       questiondiv.attr('data-problemID', 'null')
       @renderQuestion(questiondiv, {question: '...'} ) 
-
+   
+  transitionToScoreDisplay: () ->
+    setTimeout ->
+      do $('#gameArea').hide
+      do $('#currentRoom').hide
+      do $('#gameEndScoreboard').show
+      for player in gameSettings.lastUpdate.players when player?
+        $('#scoreboardBody').append "<tr id=\"scoreLine#{player.id}\"></tr>"
+      $('#scoreboardHead').append "<th></th>"
+      for i in [0...(gameSettings.lastUpdate.roundNum-1)]
+        $('#scoreboardHead').append "<th>#{i}</th>"
+      $('#scoreboardHead').append "<th><strong>Total</strong></th>"
+      bestName = null
+      bestValue = -55555
+      for player in gameSettings.lastUpdate.players when player?
+        tr = $('#scoreLine'+player.id)
+        tr.append "<td>#{player.name}</td>"
+        sum = 0
+        for i in [0...(gameSettings.lastUpdate.roundNum-1)]
+          tr.append "<td>#{player.score[i]}</td>"
+          sum += player.score[i]
+        tr.append "<td><strong>#{sum}</strong></td>"
+        if sum>bestValue
+          bestName = player.name
+          bestValue = sum
+        else if sum==bestValue
+          bestName = null
+      txt = "The game ends in a tie"
+      if bestName!=null
+        txt = "#{bestName} is the winner"
+      $('#gameWinnerText').text txt
+    , 3000
+      
   renderStatus: (status) ->
     $('#gameStatus').html(status) 
 
@@ -158,3 +190,4 @@ window.ui =
   init: ->
     do @initQuestions
     do @initBindings
+    do $('#gameEndScoreboard').hide
