@@ -1,3 +1,5 @@
+
+
 connect = (name, desiredPlayers, roundDuration) ->
   gameSettings.setPlayerName name
   gameSettings.roundDuration = roundDuration

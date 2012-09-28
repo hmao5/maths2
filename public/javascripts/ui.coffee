@@ -1,3 +1,4 @@
+
 getMarginalSolvedProblems = (newActiveProblems) ->
   # numProblems = 3
   # newActiveProblems = _.compact(newActiveProblems)
@@ -174,4 +175,3 @@ window.ui =
   init: ->
     do @initQuestions
     do @initBindings
-
