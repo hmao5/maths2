@@ -101,11 +101,13 @@ window.ui =
     targetColor = (if solvedProblem? then utils.playerIDtoHSLAstring(solvedProblem.answeredBy, gameSettings.maxPlayers) else 'black')
     console.log 'targetColor', targetColor
 
+    questiondiv.css('color', targetColor)
+
     questiondiv.animate
       left: '+=50px'
       color: targetColor
-      opacity: 1
-      , 200
+      opacity: .25
+      , 300
       , ->
         console.log "questiondiv", questiondiv
         $("h3", questiondiv).text("#{newProblem?.question}")

@@ -25,4 +25,8 @@ public class Guess extends Model {
 		this.problemAnswered = problemAnswered;
 		this.game = player.game;
 	}
+	
+	public String toString() {
+		return player.name+":"+answer;
+	}
 }
