@@ -35,7 +35,7 @@ public class Update {
 		roundStarted = game.inRound;
 		gameStarted = game.started;
 		gameEnded = game.ended;
-		roundTimerMillis = Math.max(0,(int)(game.roundTimeLimit*1000-
+		roundTimerMillis = Math.max(0,(int)(game.roundDuration*1000-
 				(System.currentTimeMillis()-game.roundStartMillis)));
 	}
 	
