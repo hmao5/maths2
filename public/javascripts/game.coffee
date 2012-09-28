@@ -162,7 +162,7 @@ window.updates =
 
     @getUpdateCB = (update, updateStatus, jqXHR) =>
       gameSettings.currentUpdate = update
-      console.log update
+      console.log 'update:', update
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
       ui.updatePlayers update.players

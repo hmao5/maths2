@@ -59,6 +59,7 @@ window.ui =
       $('.playerName', playerDiv).text player.name
       $('.playerName', playerDiv).css('color', utils.playerIDtoHSLAstring(slotNumber + 1, gameSettings.maxPlayers))
       $('.playerScore', playerDiv).text "#{player.score}"
+      playerDiv.attr('data-playerId', player.id)
       if player.ready
         playerDiv.attr('data-ready', true) 
       else
@@ -71,6 +72,7 @@ window.ui =
     $('.playerName', playerDiv).css('color', utils.playerIDtoHSLAstring(0, gameSettings.maxPlayers))
     $('.playerScore', playerDiv).text "#{player.score}"
     playerDiv.removeAttr 'data-empty'
+    playerDiv.attr 'data-playerId', player.id
     if player.ready
       playerDiv.attr('data-ready', true) 
     else
@@ -110,23 +112,30 @@ window.ui =
     questiondiv.show()
      
   updateTimer: (timeInMs) ->
-    console.log timeInMs
     timerText = if timeInMs == 0 then "Times up! Finish these questions!" else timeInMs/1000
-    # console.log timeInMs
     $('#timer').text(timerText)
     secondsWarning = 15
     secondsRedAt = 5
     percOutOfTime = (secondsWarning*1000 - Math.min(secondsWarning*1000, timeInMs - secondsRedAt*1000)) / (secondsWarning*1000)
-    # console.log percOutOfTime
     color = Math.min( Math.pow(percOutOfTime, 3) * 255, 255)
     color = parseInt color
-    # console.log Math.min(secondsWarning*1000, timeInMs) 
-    # console.log color
 
     $('#timer').css('color', "rgb(#{color},0,0)")
-  updateGuesses: (guesses) ->
-    console.log guesses
 
+  renderGuesses: (guesses) ->
+    marginalGuesses = guesses[gameSettings.lastUpdate.guesses.length..]
+    console.log 'marginal guesses', marginalGuesses
+    for guess, i in marginalGuesses
+      # playerDiv = $(".playerSlot[data-playerId=#{guess.playerId}]")
+      # playerGuess = playerDiv.find('.playerGuess')
+      # playerGuess.text(guess.answer)
+      @renderGuess(guess)
+
+  renderGuess: (guess) ->
+      playerDiv = $(".playerSlot[data-playerId=#{guess.playerId}]")
+      guessDiv = $('<span/>').addClass('playerGuess')
+      guessDiv.text(guess.answer)
+      playerDiv.find('.playerGuesses').append(guessDiv)
 
   cleanUpGameArea: () ->
     console.log 'cleanUpGameArea'
@@ -140,7 +149,7 @@ window.ui =
     $('#gameStatus').html(status) 
 
   initPlayers: ->
-    for i in [0.. (gameSettings.maxPlayers - 1)]
+    for i in [0 ... gameSettings.maxPlayers]
       playerDiv = $('#playerSlotTemplate').clone()
       playerDiv.attr 'id', "playerSlot#{i}" 
       playerDiv.attr 'data-empty', "true" 

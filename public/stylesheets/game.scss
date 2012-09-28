@@ -148,7 +148,15 @@ p, li {
   font-weight: bold;
 }
 
-.playerSlot .playerGuess {
+.playerSlot .playerGuesses {
+}
+
+.playerSlot .playerGuesses .playerGuess {
+  font-weight: bold;
+}
+
+.playerSlot .playerScore {
+  float: right;
 }
 
 #systemManagement h3 {
