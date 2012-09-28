@@ -1,23 +1,13 @@
 
 getMarginalSolvedProblems = (newActiveProblems) ->
-  # numProblems = 3
-  # newActiveProblems = _.compact(newActiveProblems)
-  
-  # for n in [0..(numProblems - newActiveProblems.length)]
-  # console.log "derpenstein"
-    # newActiveProblems.push
-
 
   newActiveProblems 
   oldActiveProblems = gameSettings.lastUpdate.activeProblems
-  # console.log "old: ", oldActiveProblems
-  # console.log "new: ", newActiveProblems
   oldIds =  _.map oldActiveProblems, (p) -> p?.id
   newIds =  _.map newActiveProblems, (p) -> p?.id
   solved = _.difference oldIds, newIds
   replacing = _.difference newIds, oldIds
 
-  console.log "marginal solved problems", _.zip solved, replacing
   return _.zip solved, replacing
 
 getReplacingProblems = (newActiveProblems) ->
@@ -26,10 +16,6 @@ getReplacingProblems = (newActiveProblems) ->
   newIds =  _.map newActiveProblems, (p) -> p?.id
   difference = _.difference newIds, oldIds
   return difference
-
-    
-
-  
 
 window.ui =
   initBindings: ->
@@ -61,7 +47,6 @@ window.ui =
         $('#playerAnswer').val('')
 
   updatePlayers: (players) ->
-    # TODO (syu) this is buggy! when we skip player.id, we end up not populating all the player slots.
     localPlayer = null
     for player, i in players when player?
       if player.id == gameSettings.player.id
@@ -72,6 +57,7 @@ window.ui =
       playerDiv = $ "#playerSlot#{slotNumber}"
       playerDiv.removeAttr('data-empty')
       $('.playerName', playerDiv).text player.name
+      $('.playerName', playerDiv).css('color', utils.playerIDtoHSLAstring(slotNumber + 1, gameSettings.maxPlayers))
       $('.playerScore', playerDiv).text "#{player.score}"
       if player.ready
         playerDiv.attr('data-ready', true) 
@@ -82,6 +68,7 @@ window.ui =
     playerDiv = $ "#playerSlotLocal"
     player = gameSettings.player
     $('.playerName', playerDiv).text player.name
+    $('.playerName', playerDiv).css('color', utils.playerIDtoHSLAstring(0, gameSettings.maxPlayers))
     $('.playerScore', playerDiv).text "#{player.score}"
     playerDiv.removeAttr 'data-empty'
     if player.ready
@@ -90,8 +77,7 @@ window.ui =
       playerDiv.removeAttr('data-ready')
 
   onInGameQuestions: (problems) ->
-    for i in [0..problems.length - 1]
-      newProblem = problems[i]
+    for newProblem, i in problems
       questiondiv = $("#question#{i}")
       questiondiv.attr('data-problemID', newProblem?.id)
       @renderQuestion(questiondiv, newProblem) 
@@ -103,14 +89,10 @@ window.ui =
       solvedProblem = allProblems[solvedProblemID]
       newProblem = allProblems[newProblemID]
       questiondiv = $(".question[data-problemID=#{solvedProblem?.id}]")
-      # console.log questiondiv, questiondiv.length
-      #  questiondiv = $(".question").not("[data-problemID]").not("#questionTemplate").first() unless questiondiv.length
-
       questiondiv.attr('data-problemID', newProblem?.id)
 
       @renderQuestion(questiondiv, newProblem)
 
-      console.log solvedProblem, newProblem, questiondiv
 
 
   renderQuestion: (questiondiv, newProblem) ->
