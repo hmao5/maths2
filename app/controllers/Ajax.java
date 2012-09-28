@@ -1,17 +1,15 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import models.GameInstance;
+import models.Guess;
 import models.Problem;
 import models.User;
 import play.Logger;
 import play.mvc.Controller;
-import responses.PlayerI;
-import responses.ProblemI;
 import responses.Update;
 
 public class Ajax extends Controller {
@@ -114,6 +112,7 @@ public class Ajax extends Controller {
 				problemAnswered = pr;
 			}
 		}
+		new Guess(user, d, problemAnswered).save();
 		Logger.info(user.name + " answered "+ans+(problemAnswered!=null?
 				" and got #"+problemAnswered.id:""));
 		if(problemAnswered!=null) {

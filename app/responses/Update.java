@@ -1,9 +1,12 @@
 package responses;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import models.GameInstance;
+import models.Guess;
 import models.Problem;
 import models.User;
 
@@ -11,6 +14,7 @@ public class Update {
 	public Map<String, ProblemI> allProblems;
 	public ProblemI[] activeProblems;
 	public PlayerI[] players;
+	public List<GuessI> guesses;
 	public int roundNum;
 	public boolean roundStarted;
 	public int roundTimerMillis;
@@ -30,6 +34,10 @@ public class Update {
 		players = new PlayerI[game.maxPlayers];
 		for(User pl: game.players) {
 			players[pl.position] = new PlayerI(pl);
+		}
+		guesses = new ArrayList<GuessI>();
+		for(Guess g: game.guesses) {
+			guesses.add(new GuessI(g));
 		}
 		roundNum = game.round;
 		roundStarted = game.inRound;
