@@ -124,6 +124,9 @@ window.ui =
     # console.log color
 
     $('#timer').css('color', "rgb(#{color},0,0)")
+  updateGuesses: (guesses) ->
+    console.log guesses
+
 
   cleanUpGameArea: () ->
     console.log 'cleanUpGameArea'
