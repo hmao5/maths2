@@ -30,8 +30,8 @@ window.ui =
         $('#inputPlayerName').val("Your name can't be blank!")
       else
         desiredPlayers = $('#inputDesiredPlayers').val()
-        console.log desiredPlayers
-        comm.connect name, desiredPlayers
+        roundDuration = $('#inputRoundDuration').val()
+        comm.connect name, desiredPlayers, roundDuration
         do $('#getStarted').slideUp
         do $('#currentRoom').slideDown
     $('#buttonConnectSettings').click ->
@@ -80,12 +80,6 @@ window.ui =
 
   updateQuestions: (problems, allProblems) ->
     problemPairs =  getMarginalSolvedProblems problems
-    # console.log problemPairs
-
-    # console.log "SolvedProblems:", solvedProblems
-    # console.log "newProblems:", newProblems
-
-    # for problem, i in problems  when problem?
 
     for [solvedProblemID, newProblemID], i in problemPairs 
       solvedProblem = allProblems[solvedProblemID]
