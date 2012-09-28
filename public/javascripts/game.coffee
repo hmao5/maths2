@@ -61,8 +61,6 @@ answer = ->
   answer_matches = false
   # validations
   # TODO(syu): REFACTOR ME
-  (answer_matches = true) for problem in gameSettings.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)
-  return unless answer_matches
   console.log 'sending answer to server', ans
   data =
     ans: ans
@@ -108,10 +106,10 @@ GAME_STATUS =
     do ui.cleanUpGameArea
     $('#inputReady').show();
   onInGame: ->
-    ui.renderStatus('in game')
     console.log "onGame!"
     gameSettings.player.ready = false
     $('#gameArea').slideDown();
+    ui.renderStatus('in game')
     ui.onInGameQuestions(gameSettings.currentUpdate.activeProblems)
   onGameEnd: ->
     ui.renderStatus('game over')
@@ -165,7 +163,7 @@ window.updates =
 
     @getUpdateCB = (update, updateStatus, jqXHR) =>
       gameSettings.currentUpdate = update
-      console.log update
+      console.log 'update:', update
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
       ui.updatePlayers update.players
@@ -173,6 +171,7 @@ window.updates =
       if status == GAME_STATUS.IN_GAME
         ui.updateQuestions update.activeProblems, update.allProblems
         ui.updateTimer(update.roundTimerMillis)
+        ui.renderGuesses(update.guesses)
       gameSettings.setGameStatus status
       gameSettings.lastUpdate = update
 

@@ -101,7 +101,7 @@ p, li {
 }
 
 #playersList {
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 #playerSlotTemplate {
@@ -144,9 +144,23 @@ p, li {
   }
 }
 
-
 .playerName {
   font-weight: bold;
+}
+
+.playerSlot .playerGuesses {
+  position: absolute;
+}
+
+.playerSlot .playerGuesses .playerGuess {
+  display: inline-block;
+  font-weight: bold;
+  padding: 0px 5px;
+  float: left;
+}
+
+.playerSlot .playerScore {
+  float: right;
 }
 
 #systemManagement h3 {
@@ -162,63 +176,26 @@ p, li {
   display: none;
 }
 
-/*
-#inputReady[data-status="ready"] {
-  background: green;
-  margin-left: 1.2em;
-  vertical-align: middle;
-  position: relative;
-  top: -.2em;
-  height: 1em;
-  @extend .label;
-  padding: .1em .3em;
-}
-#inputReady[data-status="ready"]::after {
-  content: "CLICK TO UNREADY";
-  font-weight: bold;
-  color: white;
-}
-#inputReady[data-status="unready"]{
-  margin-left: 1.2em;
-  vertical-align: middle;
-  position: relative;
-  top: -.2em;
-  height: 1em;
-  padding: .1em .3em;
-  @extend .label;
-  background: gray;
-}
-
-#inputReady[data-status="unready"]::after {
-  content: "CLICK TO READY";
-  font-weight: bold;
-  color: white;
-}
-  */
-
 #inputPlayerName {
   // font-size: 2em;
   height: 28px;
   vertical-align: middle;
-  // display: inline-block;
-  // padding: auto;
-  // margin: 0px;
 }
 
 #buttonConnect {
-  // vertical-align: middle;
-  // margin: 0px;
 }
 
 #buttonConnectSettings {
   @include border-radius(0px 6px 6px 0px);
-
 }
+
 #buttonConnectSettings .icon-cog {
 }
+
 #getStartedMoreOptions {
   display: none;
 }
+
 #inputDesiredPlayers {
   width: 5%;
 }
@@ -232,9 +209,9 @@ p, li {
 }
 
 #timer {
-	position: absolute;
-	top: 50px;
-	right: 80px;
+  position: absolute;
+  top: 50px;
+  right: 80px;
 }
 #gameArea #questions h2#questionsHeader {
   text-align: center;
