@@ -1,4 +1,13 @@
 getMarginalSolvedProblems = (newActiveProblems) ->
+  # numProblems = 3
+  # newActiveProblems = _.compact(newActiveProblems)
+  
+  # for n in [0..(numProblems - newActiveProblems.length)]
+  # console.log "derpenstein"
+    # newActiveProblems.push
+
+
+  newActiveProblems 
   oldActiveProblems = gameSettings.lastUpdate.activeProblems
   # console.log "old: ", oldActiveProblems
   # console.log "new: ", newActiveProblems
@@ -7,6 +16,7 @@ getMarginalSolvedProblems = (newActiveProblems) ->
   solved = _.difference oldIds, newIds
   replacing = _.difference newIds, oldIds
 
+  console.log "marginal solved problems", _.zip solved, replacing
   return _.zip solved, replacing
 
 getReplacingProblems = (newActiveProblems) ->
@@ -78,6 +88,13 @@ window.ui =
     else
       playerDiv.removeAttr('data-ready')
 
+  onInGameQuestions: (problems) ->
+    for i in [0..problems.length - 1]
+      newProblem = problems[i]
+      questiondiv = $("#question#{i}")
+      questiondiv.attr('data-problemID', newProblem?.id)
+      @renderQuestion(questiondiv, newProblem) 
+
   updateQuestions: (problems, allProblems) ->
     problemPairs =  getMarginalSolvedProblems problems
 
@@ -86,30 +103,28 @@ window.ui =
       newProblem = allProblems[newProblemID]
       questiondiv = $(".question[data-problemID=#{solvedProblem?.id}]")
       # console.log questiondiv, questiondiv.length
-      questiondiv = $(".question").not("[data-problemID]").not("#questionTemplate").first() unless questiondiv.length
+      #  questiondiv = $(".question").not("[data-problemID]").not("#questionTemplate").first() unless questiondiv.length
 
-      questiondiv.attr('data-problemID', newProblem.id)
+      questiondiv.attr('data-problemID', newProblem?.id)
 
-      do (questiondiv, newProblem) ->
-        questiondiv.animate
-          left: '+=50'
-          opacity: 0.25
-          , 200
-          , ->
-            console.log "questiondiv", questiondiv
-            $("h3", questiondiv).text("#{newProblem.question}")
-            questiondiv.removeClass('solved')
-            questiondiv.css('color', 'black')
-            questiondiv.css('opacity', '1')
-            questiondiv.css('left', '0')
-
-
-      questiondiv.show()
+      @renderQuestion(questiondiv, newProblem)
 
       console.log solvedProblem, newProblem, questiondiv
 
 
-  animateOutQuestion: (question$) ->
+  renderQuestion: (questiondiv, newProblem) ->
+    questiondiv.animate
+      left: '+=50'
+      opacity: 0.25
+      , 200
+      , ->
+        console.log "questiondiv", questiondiv
+        $("h3", questiondiv).text("#{newProblem?.question}")
+        questiondiv.removeClass('solved')
+        questiondiv.css('color', 'black')
+        questiondiv.css('opacity', '1')
+        questiondiv.css('left', '0')
+    questiondiv.show()
      
   updateTimer: (timeInMs) ->
     timerText = if timeInMs == 0 then "Times up! Finish these questions!" else timeInMs/1000
@@ -126,6 +141,16 @@ window.ui =
 
     $('#gameArea #timer').css('color', "rgb(#{color},0,0)")
 
+  cleanUpGameArea: () ->
+    console.log 'cleanUpGameArea'
+    $('#gameArea #timer').text('')
+    for i in [0..2]
+      questiondiv = $("#question#{i}")
+      questiondiv.attr('data-problemID', 'null')
+      @renderQuestion(questiondiv, {question: '...'} ) 
+
+  renderStatus: (status) ->
+    $('#gameStatus').html(status) 
 
   initPlayers: ->
     for i in [0.. (gameSettings.maxPlayers - 1)]

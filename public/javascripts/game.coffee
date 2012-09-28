@@ -60,6 +60,7 @@ answer = ->
   console.log 'answer', ans
   answer_matches = false
   # validations
+  # TODO(syu): REFACTOR ME
   (answer_matches = true) for problem in gameSettings.lastUpdate.activeProblems when (problem? and Number(ans) == problem.answer)
   return unless answer_matches
   console.log 'sending answer to server', ans
@@ -89,7 +90,8 @@ GAME_STATUS =
   IN_GAME: 'In game'
   GAME_END: 'Game over'
   parse: (update) ->
-    if update.gameEnd
+    if update.gameEnded
+      console.log "game Ending"
       return GAME_STATUS.GAME_END
     else if !update.roundStarted and !update.gameStarted
       return GAME_STATUS.WAITING
@@ -98,14 +100,22 @@ GAME_STATUS =
     else if update.roundStarted and update.gameStarted
       return GAME_STATUS.IN_GAME
   onWaiting: ->
+    ui.renderStatus('waiting...')
     console.log "onWaiting!"
   onLobby: ->
+    ui.renderStatus('in lobby')
     console.log "onLobby!"
+    do ui.cleanUpGameArea
     $('#inputReady').show();
   onInGame: ->
+    ui.renderStatus('in game')
     console.log "onGame!"
+    gameSettings.player.ready = false
     $('#gameArea').slideDown();
+    ui.onInGameQuestions(gameSettings.currentUpdate.activeProblems)
   onGameEnd: ->
+    ui.renderStatus('game over')
+    do ui.cleanUpGameArea
     console.log "onEnd!"
     do updates.clear
 
@@ -153,6 +163,7 @@ window.updates =
       $.ajax ajaxSettings
 
     @getUpdateCB = (update, updateStatus, jqXHR) =>
+      gameSettings.currentUpdate = update
       console.log update
       status = GAME_STATUS.parse update
       @gameStatusCallbacks(status)
