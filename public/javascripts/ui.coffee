@@ -128,9 +128,10 @@ window.ui =
     questiondiv.show()
      
   updateTimer: (timeInMs) ->
+    console.log timeInMs
     timerText = if timeInMs == 0 then "Times up! Finish these questions!" else timeInMs/1000
     # console.log timeInMs
-    $('#gameArea #timer').text(timerText)
+    $('#timer').text(timerText)
     secondsWarning = 15
     secondsRedAt = 5
     percOutOfTime = (secondsWarning*1000 - Math.min(secondsWarning*1000, timeInMs - secondsRedAt*1000)) / (secondsWarning*1000)
@@ -140,11 +141,11 @@ window.ui =
     # console.log Math.min(secondsWarning*1000, timeInMs) 
     # console.log color
 
-    $('#gameArea #timer').css('color', "rgb(#{color},0,0)")
+    $('#timer').css('color', "rgb(#{color},0,0)")
 
   cleanUpGameArea: () ->
     console.log 'cleanUpGameArea'
-    $('#gameArea #timer').text('')
+    $('#timer').text('')
     for i in [0..2]
       questiondiv = $("#question#{i}")
       questiondiv.attr('data-problemID', 'null')
