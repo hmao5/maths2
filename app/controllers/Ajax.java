@@ -29,7 +29,7 @@ public class Ajax extends Controller {
 		return u;
 	}
 	
-	public static void connect(String playerName, int desiredPlayers) {
+	public static void connect(String playerName, int desiredPlayers, int roundDuration) {
 		List<GameInstance> games = GameInstance.all().fetch();
 		GameInstance game = null;
 		int position = 0;
@@ -42,7 +42,7 @@ public class Ajax extends Controller {
 			}
 		}
 		if(game==null) {
-			game = new GameInstance(desiredPlayers).save();
+			game = new GameInstance(desiredPlayers, roundDuration).save();
 		}
 		User u = new User(playerName, game, position).save();
 		if(position==game.maxPlayers-1) {

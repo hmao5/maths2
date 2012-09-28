@@ -32,7 +32,7 @@ public class GameInstance extends Model {
 	public boolean inRound;
 	public boolean roundTimeUp;
 	
-	public GameInstance(int maxPlayers) {
+	public GameInstance(int maxPlayers, int roundDuration) {
 		this.players = new ArrayList<User>();
 		this.problems = new ArrayList<Problem>();
 		this.round = 0;
@@ -46,7 +46,7 @@ public class GameInstance extends Model {
 		// TODO factor these out of this constructor
 		this.problemsAtOnce = 3;
 		this.pointsToWin = 5;
-		this.roundDuration = 5;
+		this.roundDuration = roundDuration;
 		this.totalRounds = 3;
 	}
 	
