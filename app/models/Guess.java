@@ -23,5 +23,6 @@ public class Guess extends Model {
 		this.player = player;
 		this.answer = answer;
 		this.problemAnswered = problemAnswered;
+		this.game = player.game;
 	}
 }
