@@ -99,7 +99,7 @@ window.ui =
 
   renderQuestion: (questiondiv, newProblem) ->
     questiondiv.animate
-      left: '+=50'
+      left: '+=50px'
       opacity: 0.25
       , 200
       , ->
@@ -136,6 +136,14 @@ window.ui =
       guessDiv = $('<span/>').addClass('playerGuess')
       guessDiv.text(guess.answer)
       playerDiv.find('.playerGuesses').append(guessDiv)
+      guessDiv.hide()
+      $(guessDiv).fadeIn 500,
+        ->
+          console.log this
+          #  $(guessDiv).effect('bounce', times: 2, direction: 'up')
+          $(this).fadeOut(500, -> $(this).remove())
+
+
 
   cleanUpGameArea: () ->
     console.log 'cleanUpGameArea'

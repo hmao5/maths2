@@ -149,10 +149,14 @@ p, li {
 }
 
 .playerSlot .playerGuesses {
+  position: absolute;
 }
 
 .playerSlot .playerGuesses .playerGuess {
+  display: inline-block;
   font-weight: bold;
+  padding: 0px 5px;
+  float: left;
 }
 
 .playerSlot .playerScore {
